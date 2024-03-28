@@ -5,18 +5,18 @@ module.exports.Crop = async (req, res, next) => {
 
     try {
         // Check if there's an existing document with the given id
-        const existingData = await CropModel.findOne({ id });
+        const existingCrop = await CropModel.findOne({ id });
 
-        if (existingData) {
+        if (existingCrop) {
             // If document exists, update its fields
-            existingData.Crop1 = Crop1;
-            existingData.Crop2 = Crop2;
-            existingData.Crop3 = Crop3;
-            existingData.Crop4 = Crop4;
-            existingData.Crop5 = Crop5;
+            existingCrop.Crop1 = Crop1;
+            existingCrop.Crop2 = Crop2;
+            existingCrop.Crop3 = Crop3;
+            existingCrop.Crop4 = Crop4;
+            existingCrop.Crop5 = Crop5;
 
             // Save the updated document
-            await existingData.save();
+            await existingCrop.save();
             res.status(200).json({ message: 'Data updated successfully' });
         } else {
             // If no document found with the given id, create a new one
@@ -43,14 +43,14 @@ module.exports.Cropfetch = async (req, res, next) => {
         // Check if there's an existing document with the given id
         const existingCrop = await CropModel.findOne({ id });
 
-        if (existingData) {
+        if (existingCrop) {
             res.status(200).json({
                 status: true,
-                Crop1: existingData.Crop1,
-                Crop2: existingData.Crop2,
-                Crop3: existingData.Crop3,
-                Crop4: existingData.Crop4,
-                Crop5: existingData.Crop5,
+                Crop1: existingCrop.Crop1,
+                Crop2: existingCrop.Crop2,
+                Crop3: existingCrop.Crop3,
+                Crop4: existingCrop.Crop4,
+                Crop5: existingCrop.Crop5,
                 
             });
         } else {

@@ -61,25 +61,28 @@ const Login = () => {
     <div className="form_container">
       <h2>Login Account</h2>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email">Email</label>
+        <div className="form-floating">
           <input
             type="email"
+            className="form-control"
+            id="email"
             name="email"
             value={email}
             placeholder="Enter your email"
             onChange={handleOnChange}
           />
+          <label htmlFor="email">Email</label>
         </div>
-        <div>
-          <label htmlFor="password">Password</label>
+        <div className="form-floating">
           <input
             type="password"
+            className="form-control"
             name="password"
             value={password}
             placeholder="Enter your password"
             onChange={handleOnChange}
-          />
+          />          
+          <label htmlFor="password">Password</label>
         </div>
         <button type="submit">Submit</button>
         <span>

@@ -77,7 +77,14 @@ span a {
   color: rgba(0, 212, 255, 1);
 }
 
-.home_page {
+.card_container{
+  padding: 2rem;
+  padding-left: 4rem;
+  padding-right: 4rem;
+
+}
+
+/* .home_page {
   height: 100vh;
   width: 100vw;
   background: #dbdbdb;
@@ -93,7 +100,7 @@ span a {
 
 .home_page span {
   color: rgba(0, 212, 255, 1);
-}
+} */
 
 .home_page button {
   background-color: rgb(203, 203, 203);
