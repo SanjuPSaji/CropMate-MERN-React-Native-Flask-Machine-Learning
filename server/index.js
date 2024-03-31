@@ -8,6 +8,7 @@ const cookieParser = require("cookie-parser");
 const authRoute = require("./Routes/AuthRoute");
 const dataRoute = require("./Routes/DataRoute");
 const cropRoute = require("./Routes/CropRoute");
+const postRoute = require("./Routes/PostRoute");
 const { PORT } = process.env;
 
 
@@ -34,3 +35,4 @@ app.use(express.json());
 app.use("/", authRoute);
 app.use("/", dataRoute);
 app.use("/", cropRoute);
+app.use("/", postRoute);

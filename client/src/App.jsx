@@ -1,8 +1,9 @@
 import "./App.css";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { Home, Login, Signup } from "./pages";
-import Update from "./components/Update";
+import Update from "./pages/Update";
 import Navbar from "./components/Navbar";
+import Posts from "./pages/Post";
 
 function App() {
   const location = useLocation();
@@ -19,6 +20,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/update" element={<Update />} />
+        <Route path="/forum" element={<Posts />} />
       </Routes>
     </>
   );

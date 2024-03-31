@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
-import axios from "axios";
+// import axios from "axios";
 
 const Update = () => {
     const [result, setResult] = useState(null);
@@ -49,7 +49,7 @@ const Update = () => {
             });
             const predictdata = await response.json();
             setResult(predictdata.result);
-            console.log(predictdata.Crop1)
+            console.log(predictdata.Crop1);
 
             const datatoapi = await fetch('http://localhost:4999/data', {
                 method: 'POST',

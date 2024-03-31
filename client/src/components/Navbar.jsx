@@ -1,6 +1,3 @@
-import React from "react";
-import Update from "../components/Update";
-
 const Navbar = () => {
   return (
     <div>
@@ -36,7 +33,7 @@ const Navbar = () => {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link disabled">Forum</a>
+                <a className="nav-link" href="/forum">Forum</a>
               </li>
             </ul>
           </div>
