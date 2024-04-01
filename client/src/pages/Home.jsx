@@ -3,14 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import Cookies from 'js-cookie';
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import TopCropCard from '../components/TopCropCard'
 import RestCropCards from '../components/RestCropCards'
 import '../util/config'
 
 const Home = () => {
   const navigate = useNavigate();
-  const [cookies, setCookie, removeCookie] = useCookies();
+  const [cookies, removeCookie] = useCookies();
   const [username, setUsername] = useState("");
   const [iid, setIid] = useState('');
   const [crops, setCrops] = useState([]);
@@ -29,12 +29,16 @@ const Home = () => {
       setUsername(user);
       setIid(id);
       window.config.id = id;
+      window.config.name = user;
       Cookies.set('id', id);
+      Cookies.set('username', user);
       console.log(window.config.id)
+      console.log(window.config.name)
       // const name = Cookies.get('name');
       if (!status) {
         removeCookie("token");
         window.config.resetId();
+        window.config.resetName();
         Cookies.remove('id');
         navigate("/login");
       }
@@ -68,6 +72,7 @@ const Home = () => {
   const Logout = () => {
     removeCookie("token");
     window.config.resetId();
+    window.config.resetName();
     Cookies.remove('id');
     navigate("/login");
   };

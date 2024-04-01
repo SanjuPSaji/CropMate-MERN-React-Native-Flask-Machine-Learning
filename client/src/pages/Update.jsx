@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 // import axios from "axios";
+const id = Cookies.get('id');
 
 const Update = () => {
     const [result, setResult] = useState(null);
     const [reloadPage, setReloadPage] = useState(false);
     // const [iid, setIid] = useState('');
-    const id = Cookies.get('id');
     useEffect(() => {
         if (!id && !reloadPage) { // Check if id is not available and page reload is not done
             setReloadPage(true); // Set reloadPage to true to indicate page reload

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import PostTitles from '../components/PostTitles';
+import CreatePost from '../components/CreatePost';
 
 const Post = () => {
     const [posts, setPosts] = useState([]);
@@ -21,8 +22,8 @@ const Post = () => {
     }, []);
   
     return (
-      <div>
-        {/* Pass fetched posts data to PostTitles component */}
+      <div className="m-4 pb-1">
+        <CreatePost/>
         <PostTitles posts={posts} />
       </div>
     );
