@@ -4,6 +4,7 @@ import { Home, Login, Signup } from "./pages";
 import Update from "./pages/Update";
 import Navbar from "./components/Navbar";
 import Posts from "./pages/Post";
+import PostDetails from "./pages/PostDetails"; 
 
 function App() {
   const location = useLocation();
@@ -21,6 +22,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/update" element={<Update />} />
         <Route path="/forum" element={<Posts />} />
+        <Route path="/forum/:postId" element={<PostDetails />} />
       </Routes>
     </>
   );

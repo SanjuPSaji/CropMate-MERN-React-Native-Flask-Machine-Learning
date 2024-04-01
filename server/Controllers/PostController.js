@@ -27,3 +27,23 @@ module.exports.Postfetch = async (req, res, next) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 }
+
+module.exports.PostId = async (req, res, next) => {
+    const { postId } = req.body;
+    try {
+        const posts = await PostModel.findById(postId);
+        if(!posts){
+            return res.json({message:'This Post no longer exists or the link is invalid.'})
+        }
+        res.status(200).json({
+            status: true,
+            heading : posts.heading,
+            content : posts.content,
+            creatorname : posts.creatorname,
+            createdAt : posts.createdAt,
+        });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}

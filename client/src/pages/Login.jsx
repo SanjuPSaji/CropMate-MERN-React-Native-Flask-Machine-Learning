@@ -20,11 +20,23 @@ const Login = () => {
 
   const handleError = (err) =>
     toast.error(err, {
-      position: "bottom-left",
+      position: 'top-right',
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined
     });
   const handleSuccess = (msg) =>
-    toast.success(msg, {
-      position: "bottom-left",
+    toast.success('User Logged in Successfully', {
+      position: 'top-right',
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined
     });
 
   const handleSubmit = async (e) => {

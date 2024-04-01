@@ -32,9 +32,6 @@ const Home = () => {
       window.config.name = user;
       Cookies.set('id', id);
       Cookies.set('username', user);
-      console.log(window.config.id)
-      console.log(window.config.name)
-      // const name = Cookies.get('name');
       if (!status) {
         removeCookie("token");
         window.config.resetId();
@@ -53,8 +50,6 @@ const Home = () => {
         .then(response => {
           // Extract crop names from the response
           const { Crop1, Crop2, Crop3, Crop4, Crop5 } = response.data;
-          console.log(iid)
-          console.log(Crop1)
   
           // Store crop names in an array
           const cropNames = [Crop1, Crop2, Crop3, Crop4, Crop5];

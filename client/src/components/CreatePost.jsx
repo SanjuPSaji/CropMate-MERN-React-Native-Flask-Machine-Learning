@@ -47,7 +47,6 @@ const CreatePost = () => {
                 draggable: true,
                 progress: undefined
               });
-              window.location.reload();
             
 
         } catch (error) {
@@ -65,7 +64,7 @@ const CreatePost = () => {
     };
     
   return (
-    <div>
+    <div className='text-center' >
       <form 
       onSubmit={handleSubmit}
       >
@@ -78,10 +77,11 @@ const CreatePost = () => {
             value={formData.heading}
             placeholder="Enter your heading"
             onChange={handleChange}
+            required
           />
           <label htmlFor="heading">Heading</label>
         </div>
-        <div className="form-floating">
+        <div className="form-floating mt-3" >
           <input
             type="content"
             className="form-control"
@@ -89,10 +89,12 @@ const CreatePost = () => {
             value={formData.content}
             placeholder="Enter your content"
             onChange={handleChange}
+            style={{ height: "100px"}}
+            required
           />          
           <label htmlFor="content">Comment</label>
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit" className="btn btn-info mt-3">Submit</button>
       </form>
       <ToastContainer />
     </div>

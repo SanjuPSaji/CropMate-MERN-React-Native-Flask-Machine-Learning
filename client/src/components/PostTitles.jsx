@@ -1,6 +1,13 @@
 import { formatDistanceToNow } from 'date-fns';
 
 const PostTitles = ({ posts }) => {
+  if (!posts) {
+    // Render loading indicator or return null if posts data is not available yet
+    console.log(posts)
+    return <div className="spinner-border text-info " role="status">
+    <span className="visually-hidden">Loading...</span>
+  </div>;
+  }
   const sortedPosts = posts.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   const formatDate = (dateString) => {
