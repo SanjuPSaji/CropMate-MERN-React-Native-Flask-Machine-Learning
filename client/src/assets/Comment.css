@@ -1,0 +1,129 @@
+/*##################################################################*/
+:root {
+    --black: #333;
+    --white: #fff;
+    --gray: #aaa;
+    --green: #1a8917;
+    --border-radius: 4px;
+    --transition: 0.4s ease;
+    --font-family: Arial, Helvetica, sans-serif;
+  }
+textarea {
+    font-family: var(--font-family);
+    border: none;
+    resize: none;
+  }
+  
+  textarea::placeholder {
+    color: var(--gray);
+  }
+  
+  .commentLabel {
+    height: 0;
+    width: 0;
+    visibility: hidden;
+  }
+  
+  button {
+    cursor: pointer;
+  }
+  
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  button[type="submit"] {
+    background: var(--green);
+    color: var(--white);
+    border-radius: var(--border-radius);
+  }
+  
+  .comment-box {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: auto;
+    /* margin: 50px auto; */
+    margin-top: 25px;
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    /* padding: 14px; */
+    padding-left: 14px;
+    padding-top: 8px;
+    padding-right: 14px;
+    padding-bottom: 14px;
+    transition: min-height var(--transition);
+    max-height: 46px;
+  }
+  
+  .comment-box.modified {
+    max-height: unset;
+  }
+  
+  .header {
+    transition: opacity var(--transition) 0.2s;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-40px);
+  }
+  
+  .user {
+    display: flex;
+    align-items: center;
+  }
+  
+  .user img {
+    border-radius: 20px;
+    margin-right: 10px;
+  }
+  
+  .comment-box.expanded .header {
+    transform: translateY(10px);
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .comment-field {
+    color: var(--black);
+    transition: transform var(--transition);
+    font-size: 18px;
+    width: 100%;
+    outline: none;
+    padding: 0;
+    min-height: 60px;
+    transform: translateY(-32px);
+    line-height: 1;
+  }
+  
+  .actions {
+    width: 100%;
+    display: flex;
+    align-self: flex-end;
+    justify-content: flex-end;
+    margin-top: 50px;
+    opacity: 0;
+    transition: opacity var(--transition) 0.2s;
+  }
+  
+  .comment-box.expanded .actions {
+    opacity: 1;
+  }
+  
+  .actions button {
+    margin-left: 6px;
+    font-size: 14px;
+    padding: 12px;
+    border: none;
+    line-height: 1;
+  }
+  
+  .actions .cancel {
+    background: none;
+  }
+  .comment-box.expanded .comment-field {
+    transform: translateY(40px);
+  }
+  
+  /*##################################################################3  */

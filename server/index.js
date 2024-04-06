@@ -9,6 +9,7 @@ const authRoute = require("./Routes/AuthRoute");
 const dataRoute = require("./Routes/DataRoute");
 const cropRoute = require("./Routes/CropRoute");
 const postRoute = require("./Routes/PostRoute");
+const commentRoute = require("./Routes/CommentRoute");
 const { PORT } = process.env;
 
 
@@ -36,3 +37,4 @@ app.use("/", authRoute);
 app.use("/", dataRoute);
 app.use("/", cropRoute);
 app.use("/", postRoute);
+app.use("/", commentRoute);

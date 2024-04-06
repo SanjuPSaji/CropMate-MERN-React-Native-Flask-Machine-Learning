@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { ToastContainer, toast } from 'react-toastify';
+import CommentBox from '../components/CommentBox'
+
 
 const creatorname = Cookies.get('username');
 const creatorId = Cookies.get('id');
@@ -26,15 +28,15 @@ const CreatePost = () => {
         });
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async (postData) => {
+        console.log(postData)
         try {
             const datatoapi = await fetch('http://localhost:4999/Post', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(postData)
             });
             const detailsdata = await datatoapi.json();
             console.log(detailsdata.message);
@@ -65,9 +67,9 @@ const CreatePost = () => {
     
   return (
     <div className='text-center' >
-      <form 
+      {/* <form 
       onSubmit={handleSubmit}
-      >
+      > */}
         <div className="form-floating">
           <input
             type="heading"
@@ -77,11 +79,13 @@ const CreatePost = () => {
             value={formData.heading}
             placeholder="Enter your heading"
             onChange={handleChange}
+            autoComplete="off"
             required
+            style={{ boxShadow: "0 0 6px rgba(0, 0, 0, 0.2)"}}
           />
           <label htmlFor="heading">Heading</label>
         </div>
-        <div className="form-floating mt-3" >
+        {/* <div className="form-floating mt-3" >
           <input
             type="content"
             className="form-control"
@@ -90,12 +94,14 @@ const CreatePost = () => {
             placeholder="Enter your content"
             onChange={handleChange}
             style={{ height: "100px"}}
+            autoComplete="off"
             required
           />          
           <label htmlFor="content">Comment</label>
         </div>
-        <button type="submit" className="btn btn-info mt-3">Submit</button>
-      </form>
+        <button type="submit" className="btn btn-info mt-3">Submit</button> */}
+      {/* </form> */}
+      <CommentBox postId="postId" heading={formData.heading} type="post" onCommentSubmit={handleSubmit} />
       <ToastContainer />
     </div>
   );

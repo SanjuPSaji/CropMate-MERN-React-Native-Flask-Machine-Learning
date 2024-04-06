@@ -37,6 +37,7 @@ module.exports.PostId = async (req, res, next) => {
         }
         res.status(200).json({
             status: true,
+            _id: posts._id,
             heading : posts.heading,
             content : posts.content,
             creatorname : posts.creatorname,
