@@ -62,17 +62,6 @@ const Home = () => {
   }, [window.config.id]); // Run whenever window.config.id changes
   
 
-  console.log(crops)
-
-  const Logout = () => {
-    removeCookie("token");
-    window.config.resetId();
-    window.config.resetName();
-    Cookies.remove('id');
-    navigate("/login");
-  };
-
-
   return (
     <>
       <div className="home_page">
@@ -84,7 +73,6 @@ const Home = () => {
         {crops.length > 0 && <TopCropCard crop={crops[0]} />}
           {crops.length > 0 && <RestCropCards crops={crops} />}
         </div>
-        <button onClick={Logout}>LOGOUT</button>
       </div>
       <ToastContainer />
     </>

@@ -10,7 +10,7 @@ const Post = () => {
       // Fetch posts data from your API
       const fetchData = async () => {
         try {
-          const response = await axios.post('http://localhost:4999/Postfetch');
+          const response = await axios.get('http://localhost:4999/Postfetch');
           setPosts(response.data.posts);
           console.log(response.data.posts)
         } catch (error) {
@@ -24,7 +24,7 @@ const Post = () => {
     return (
       <div className="d-flex justify-content-between m-4 pb-1">
         
-        <PostTitles posts={posts} />
+        <PostTitles type="posts" posts={posts} />
         <div style={{width: '1000px', height: '400px', marginLeft: '12px' }}>
         <CreatePost/>
         </div>

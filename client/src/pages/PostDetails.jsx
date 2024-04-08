@@ -4,6 +4,7 @@ import { formatDistanceToNow } from "date-fns";
 import CommentBox from '../components/CommentBox'
 import PostTitles from '../components/PostTitles';
 import { ToastContainer, toast } from 'react-toastify';
+import axios from 'axios';
 
 const PostDetails = () => {
   const { postId } = useParams();
@@ -14,14 +15,8 @@ const PostDetails = () => {
     const fetchPost = async () => {
       try {
         // Make a POST request to fetch the post details
-        const response = await fetch("http://localhost:4999/PostId", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ postId }),
-        });
-        const data = await response.json();
+        const response = await axios.get(`http://localhost:4999/PostId?postId=${postId}`);;
+        const data = await response.data;
 
         // Check if the response contains post data
         if (response.status) {
@@ -41,13 +36,12 @@ const PostDetails = () => {
     const fetchComments = async () => {
       try {
         // Make a GET request to fetch comments based on postId
-        const response = await fetch(`http://localhost:4999/Commentfetch?postId=${postId}`);
-        const data = await response.json();
+        const response = await axios.get(`http://localhost:4999/Commentfetch?postId=${postId}`);
+        const data = await response.data;
 
-        console.log(data)
-        // Check if the response contains comments data
-        if (response.ok) {
+        if (response.status) {
           setComments(data.comments); // Update the state with the received comments data
+          
         } else {
           console.error("Error fetching comments:", data.message);
         }
@@ -66,6 +60,8 @@ const PostDetails = () => {
     distance = distance.replace("about ", "");
     return distance;
   };
+  
+
 
   if (!post) {
     // Render loading indicator or return null if post data is not available yet
@@ -75,25 +71,24 @@ const PostDetails = () => {
   const handleCommentSubmission = async (commentData) => {
     try {
       // Make a POST request to submit the comment data
-      const response = await fetch("http://localhost:4999/Comment", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(commentData),
-      });
-      const data = await response.json();
+      const response = await axios.post("http://localhost:4999/Comment", commentData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = response.data;
   
       // Handle the response as needed
       console.log("Comment submitted:", data);
       toast.success('Replied!', {
         position: 'top-right',
-        autoClose: 3000,
+        autoClose: 1200,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
-        progress: undefined
+        progress: undefined,
+        onClose: setTimeout(function(){ window.location.reload(1);}, 1500)
       });
     } catch (error) {
       console.error("Error submitting comment:", error);
@@ -101,8 +96,8 @@ const PostDetails = () => {
   };
 
   return (
-    <div className="row row-cols-1 row-cols-md-1 g-4 mb-3 m-1">
-      <div className="  col">
+    <div className="row row-cols-1 row-cols-md-1 g-4 mx-5 mb-3 m-1">
+      <div className="col">
         {/* <div className="card card-body">
           <div className="d-flex align-items-center mb-3">
             <img
@@ -121,8 +116,11 @@ const PostDetails = () => {
           <h5 className="card-title">{post.heading}</h5>
           <p className="card-text">{post.content}</p>
         </div> */}
-        <PostTitles posts={post} />
+        <PostTitles type="post" posts={post} />
       <CommentBox postId={postId} type="comment" onCommentSubmit={handleCommentSubmission}/>
+      <div className="mt-3">
+      <PostTitles type="comment" posts={comments}/>
+      </div>
       <ToastContainer />
       </div>
     </div>

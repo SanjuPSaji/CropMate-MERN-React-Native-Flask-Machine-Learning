@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
+import '../assets/Button.css'
 // import axios from "axios";
 const id = Cookies.get('id');
 
@@ -13,6 +14,38 @@ const Update = () => {
             window.location.reload();
         }
     }, [id, reloadPage]);
+
+    const styles = {
+        '*': {
+          WebkitBoxSizing: 'border-box',
+          MozBoxSizing: 'border-box',
+          boxSizing: 'border-box',
+        },
+        buttons: {
+          margin: '10%',
+          textAlign: 'center',
+        },
+        btnHover: {
+          width: '100%',
+          fontSize: '16px',
+          fontWeight: '600',
+          color: '#fff',
+          cursor: 'pointer',
+          height: '100%',
+          textAlign: 'center',
+          border: 'none',
+          backgroundSize: '300% 100%',
+          borderRadius: '5px',
+          transition: 'all .4s ease-in-out',
+        },
+        btnHoverHover: {
+          backgroundPosition: '100% 0',
+        },
+        btnHoverColor1: {
+          backgroundImage: 'linear-gradient(to right, #25aae1, #40e495, #30dd8a, #2bb673)',
+          boxShadow: '0 4px 15px 0 rgba(49, 196, 190, 0.75)',
+        },
+      };
 
     const [formData, setFormData] = useState({
         id: id,
@@ -73,8 +106,7 @@ const Update = () => {
             <h3 >Crop Recommendation System <span role="img" aria-label="plant">🌱</span></h3>
             <form onSubmit={handleSubmit}>
                 <div className="row">
-                    <div className="col-md-4">
-                        <label htmlFor="Nitrogen">Nitrogen </label>
+                    <div className="form-floating col-md-4">
                         <input
                             type="number"
                             id="Nitrogen"
@@ -87,9 +119,9 @@ const Update = () => {
                             max={"150"}
                             required
                         />
+                        <label htmlFor="Nitrogen">Nitrogen </label>
                     </div>
-                    <div className="col-md-4">
-                        <label htmlFor="Phosphorus">Phosphorus </label>
+                    <div className="form-floating col-md-4">
                         <input
                             type="number"
                             id="Phosphorus"
@@ -102,9 +134,9 @@ const Update = () => {
                             max={"150"}
                             required
                         />
+                        <label htmlFor="Phosphorus">Phosphorus </label>
                     </div>
-                    <div className="col-md-4">
-                        <label htmlFor="Potassium">Potassium </label>
+                    <div className="form-floating col-md-4">
                         <input
                             type="number"
                             id="Potassium"
@@ -117,9 +149,9 @@ const Update = () => {
                             max={"250"}
                             required
                         />
+                        <label htmlFor="Potassium">Potassium </label>
                     </div>
-                    <div className="col-md-4">
-                        <label htmlFor="Temperature">Temperature </label>
+                    <div className="form-floating col-md-4">
                         <input
                             type="number"
                             id="Temperature"
@@ -132,9 +164,9 @@ const Update = () => {
                             max={"50"}
                             required
                         />
+                        <label htmlFor="Temperature">Temperature </label>
                     </div>
-                    <div className="col-md-4">
-                        <label htmlFor="Humidity">Humidity </label>
+                    <div className="form-floating col-md-4">
                         <input
                             type="number"
                             id="Humidity"
@@ -147,9 +179,9 @@ const Update = () => {
                             max={"100"}
                             required
                         />
+                        <label htmlFor="Humidity">Humidity </label>
                     </div>
-                    <div className="col-md-4">
-                        <label htmlFor="pH">pH </label>
+                    <div className="form-floating col-md-4">
                         <input
                             type="number"
                             id="pH"
@@ -162,9 +194,9 @@ const Update = () => {
                             max={"10"}
                             required
                         />
+                        <label htmlFor="pH">pH </label>
                     </div>
-                    <div className="col-md-4">
-                        <label htmlFor="Rainfall">Rainfall </label>
+                    <div className="form-floating col-md-4">
                         <input
                             type="number"
                             id="Rainfall"
@@ -177,13 +209,21 @@ const Update = () => {
                             max={"300"}
                             required
                         />
+                        <label htmlFor="Rainfall">Rainfall </label>
+                    </div>
+                    <div className="col-md-4">
+                    <button className="btn-hover color-1">
+                        
+  Update Details
+</button>
+
+
+
                     </div>
                 </div>
                 
                 <div className="row mt-4">
-                    <div className="">
-                        <button type="submit">Update Details</button>
-                    </div>
+                    
                 </div>
             </form>
 

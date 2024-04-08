@@ -1,12 +1,12 @@
 const CommentModel = require('../Models/CommentModel');
 
 module.exports.Comment = async (req, res, next) => {
-    const { reply, postId, creatorname, creatorId } = req.body;
+    const { content, postId, creatorname, creatorId } = req.body;
 
   try {
     // Create a new instance of the Comment model
     const newComment = new CommentModel({
-      reply,
+      content,
       postId,
       creatorname,
       creatorId,
@@ -40,3 +40,20 @@ module.exports.Commentfetch = async (req, res, next) => {
   }
 };
 
+module.exports.DeleteComment = async (req, res, next) => {
+  const { commentId } = req.query;
+
+  try {
+    // Find the comment by its ID and delete it
+    const deletedComment = await CommentModel.findByIdAndDelete(commentId);
+
+    if (!deletedComment) {
+      return res.status(404).json({ message: "Comment not found" });
+    }
+
+    res.status(200).json({ message: "Comment deleted successfully", deletedComment });
+  } catch (error) {
+    console.error("Error deleting comment:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};

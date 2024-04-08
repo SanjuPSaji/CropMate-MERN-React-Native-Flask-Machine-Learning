@@ -48,7 +48,7 @@ const CommentBox = ({ onCommentSubmit,type,heading, postId }) => {
     // Create the comment data object
     const commentData = {
       postId: postId, // Assuming postId is available in the scope
-      reply: commentValue,
+      content: commentValue,
       creatorname: creatorname,
       creatorId: Cookies.get("id"), // Add the creatorId if needed
       createdAt: new Date(),
@@ -121,11 +121,11 @@ const CommentBox = ({ onCommentSubmit,type,heading, postId }) => {
         id="comment"
       />
       <div className="actions">
-        <button type="button" className="cancel" onClick={onClose}>
-          Cancel
-        </button>
         <button type="submit" disabled={commentValue.length < 1}>
           Respond
+        </button>
+        <button type="button" className="cancel" onClick={onClose}>
+          Cancel
         </button>
       </div>
     </form>

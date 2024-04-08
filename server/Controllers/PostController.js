@@ -1,4 +1,5 @@
 const PostModel = require('../Models/PostModel');
+const CommentModel = require('../Models/CommentModel');
 
 module.exports.Post = async (req, res, next) => {
     const { heading, content, creatorname, creatorId } = req.body;
@@ -29,7 +30,7 @@ module.exports.Postfetch = async (req, res, next) => {
 }
 
 module.exports.PostId = async (req, res, next) => {
-    const { postId } = req.body;
+    const { postId } = req.query;
     try {
         const posts = await PostModel.findById(postId);
         if(!posts){
@@ -42,9 +43,27 @@ module.exports.PostId = async (req, res, next) => {
             content : posts.content,
             creatorname : posts.creatorname,
             createdAt : posts.createdAt,
+            creatorId : posts.creatorId
         });
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ message: 'Internal server error' });
     }
 }
+
+module.exports.DeletePostAndComments = async (req, res, next) => {
+    const { postId } = req.query;
+
+    try {
+        // Delete the post
+        await PostModel.findByIdAndDelete(postId);
+
+        // Delete comments associated with the post
+        await CommentModel.deleteMany({ postId });
+
+        res.status(200).json({ message: 'Post and associated comments deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};

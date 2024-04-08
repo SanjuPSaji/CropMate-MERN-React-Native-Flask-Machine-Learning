@@ -66,7 +66,7 @@ const CreatePost = () => {
     };
     
   return (
-    <div className='text-center' >
+    <div className="text-center " >
       {/* <form 
       onSubmit={handleSubmit}
       > */}
