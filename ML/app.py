@@ -72,7 +72,7 @@ def predict():
     if crop_response.status_code == 201:
         print("Crop data saved successfully")
     else:
-        print("Error saving crop data:", crop_response.text)
+        print( crop_response.text)
 
 
     # Return JSON response

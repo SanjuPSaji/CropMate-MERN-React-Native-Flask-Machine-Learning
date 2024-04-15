@@ -119,6 +119,7 @@ const CommentBox = ({ onCommentSubmit,type,heading, postId }) => {
         value={commentValue}
         name="comment"
         id="comment"
+        required
       />
       <div className="actions">
         <button type="submit" disabled={commentValue.length < 1}>

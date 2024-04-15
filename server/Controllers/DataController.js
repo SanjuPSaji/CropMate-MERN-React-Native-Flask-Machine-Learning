@@ -1,4 +1,5 @@
 const DataModel = require('../Models/DataModel');
+const axios = require('axios');
 
 
 module.exports.Data = async (req, res, next) => {
@@ -63,6 +64,32 @@ module.exports.Datafetch = async (req, res, next) => {
         } else {
             res.status(200).json({ status: false });
         }
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+module.exports.dataToML = async (req, res, next) => {
+    const { id, Nitrogen, Phosphorus, Potassium, Temperature, Humidity, pH, Rainfall } = req.body;
+
+    try {
+        // Make a request to the Flask ML API
+        const mlApiResponse = await axios.post('http://localhost:5000/predict', {
+            id,
+            Nitrogen,
+            Phosphorus,
+            Potassium,
+            Temperature,
+            Humidity,
+            pH,
+            Rainfall
+        });
+
+        // Optionally, you can handle the response from the ML API here
+
+        // Return the response to the client (React Native app)
+        res.status(200).json(mlApiResponse.data);
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ message: 'Internal server error' });

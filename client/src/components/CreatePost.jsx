@@ -85,22 +85,7 @@ const CreatePost = () => {
           />
           <label htmlFor="heading">Heading</label>
         </div>
-        {/* <div className="form-floating mt-3" >
-          <input
-            type="content"
-            className="form-control"
-            name="content"
-            value={formData.content}
-            placeholder="Enter your content"
-            onChange={handleChange}
-            style={{ height: "100px"}}
-            autoComplete="off"
-            required
-          />          
-          <label htmlFor="content">Comment</label>
-        </div>
-        <button type="submit" className="btn btn-info mt-3">Submit</button> */}
-      {/* </form> */}
+        
       <CommentBox postId="postId" heading={formData.heading} type="post" onCommentSubmit={handleSubmit} />
       <ToastContainer />
     </div>

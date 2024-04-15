@@ -38,6 +38,7 @@ module.exports.Crop = async (req, res, next) => {
 
 module.exports.Cropfetch = async (req, res, next) => {
     const { id } = req.body;
+    console.log(id)
 
     try {
         // Check if there's an existing document with the given id
@@ -54,7 +55,7 @@ module.exports.Cropfetch = async (req, res, next) => {
                 
             });
         } else {
-            res.status(200).json({ status: false });
+            res.status(201).json({ status: false });
         }
     } catch (error) {
         console.error('Error:', error);

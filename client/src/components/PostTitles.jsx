@@ -2,16 +2,21 @@ import { formatDistanceToNow } from 'date-fns';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
+import EditDetails from '../components/EditDetails';
+import { Modal } from 'react-bootstrap';
+import { useState } from 'react';
 
 const id = Cookies.get('id');
 
 const PostTitles = ({ posts,type }) => {
+  const [showEditDetails, setShowEditDetails] = useState(false); // State to manage visibility of EditDetails component
+  const [selectedPost, setSelectedPost] = useState(null);
 
-
-  const handleEdit = (postId) => {
+  const handleEdit = (post) => {
     // Handle edit functionality
-    console.log("Editing post with ID:", postId);
-    console.log("Type:", type);
+    console.log(post); // Access the ID of the post using post._id
+    setSelectedPost(post); // Set the selected post for editing
+    setShowEditDetails(true);
   };
 
   const handleDelete = async (postId) => {
@@ -113,7 +118,7 @@ const PostTitles = ({ posts,type }) => {
                 </button>
                 <ul className="dropdown-menu" aria-labelledby="dropdownMenu2">
                   <li>
-                    <button className="dropdown-item" onClick={() => handleEdit(post._id)}>
+                    <button className="dropdown-item" onClick={() => handleEdit(post)}>
                       <i className="fas fa-pen mx-2"></i> Edit
                     </button>
                   </li>
@@ -128,6 +133,15 @@ const PostTitles = ({ posts,type }) => {
           </div>
         </div>
       ))}
+      {/* Show EditDetails component if showEditDetails is true */}
+      <Modal show={showEditDetails} onHide={() => setShowEditDetails(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <EditDetails post={selectedPost} type={type} onClose={() => setShowEditDetails(false)} />
+        </Modal.Body>
+      </Modal>
       <ToastContainer />
     </div>
   );

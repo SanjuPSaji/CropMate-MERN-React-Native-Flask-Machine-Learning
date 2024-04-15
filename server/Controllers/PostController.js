@@ -50,6 +50,27 @@ module.exports.PostId = async (req, res, next) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 }
+module.exports.UpdatePost = async (req, res) => {
+    const { postId, heading, content } = req.body;
+
+    try {
+        // Find the post by ID and update its heading and content
+        const updatedPost = await PostModel.findByIdAndUpdate(
+            postId,
+            { heading, content },
+            { new: true } // Return the updated document
+        );
+
+        if (!updatedPost) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
+
+        res.status(200).json({ message: 'Post updated successfully', post: updatedPost });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
 
 module.exports.DeletePostAndComments = async (req, res, next) => {
     const { postId } = req.query;

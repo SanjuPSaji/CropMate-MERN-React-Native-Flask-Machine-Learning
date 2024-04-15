@@ -40,6 +40,28 @@ module.exports.Commentfetch = async (req, res, next) => {
   }
 };
 
+module.exports.UpdateComment = async (req, res) => {
+  const { postId, content } = req.body;
+
+  try {
+      // Find the post by ID and update its heading and content
+      const updatedComment = await CommentModel .findByIdAndUpdate(
+          postId,
+          { content },
+          { new: true } 
+      );
+
+      if (!updatedComment) {
+          return res.status(404).json({ message: 'Post not found' });
+      }
+
+      res.status(200).json({ message: 'Comment updated successfully', post: updatedComment });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 module.exports.DeleteComment = async (req, res, next) => {
   const { commentId } = req.query;
 
