@@ -69,7 +69,7 @@ def predict():
     crop_response = requests.post(crop_api_url, json=crop_data)
 
     # Check if the data was saved successfully
-    if crop_response.status_code == 201:
+    if crop_response.status_code == 200:
         print("Crop data saved successfully")
     else:
         print( crop_response.text)

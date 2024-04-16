@@ -4,6 +4,14 @@ const CommentModel = require('../Models/CommentModel');
 module.exports.Post = async (req, res, next) => {
     const { heading, content, creatorname, creatorId } = req.body;
 
+    if(!heading || !content){
+        return res.status(201).json({message: 'Please fill all the fields'})
+    }
+
+    if(!creatorname || !creatorId){
+        return res.status(201).json({message: 'Internal server error, please try again later!'})
+    }
+
     try {
         const post = await PostModel.create({
             heading,

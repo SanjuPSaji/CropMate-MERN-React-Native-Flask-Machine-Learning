@@ -1,8 +1,6 @@
 const { connectDB } = require("./config/db");
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
-const app = express();
 require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const authRoute = require("./Routes/AuthRoute");
@@ -12,6 +10,8 @@ const postRoute = require("./Routes/PostRoute");
 const commentRoute = require("./Routes/CommentRoute");
 const { PORT } = process.env;
 
+
+const app = express();
 
 connectDB();
 console.log();

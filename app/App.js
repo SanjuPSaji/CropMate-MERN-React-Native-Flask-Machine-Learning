@@ -1,27 +1,131 @@
-import React from 'react';
+import React, { useState } from 'react';
 import  Home  from './interfaces/home.js';
 import  Update  from './interfaces/update.js';
 import  Login  from './interfaces/login.js';
 import  Signup  from './interfaces/signup.js';
 import  Forum  from './interfaces/forum.js';
-import Account from './interfaces/accounts.js'
 import PostDetails from './interfaces/postDetails.js';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { NavigationContainer } from '@react-navigation/native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert, ToastAndroid } from 'react-native';
+import { NavigationContainer, useNavigation  } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { BlurView } from "@react-native-community/blur";
+
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const MainTabs = () => {
+// Custom Tab Bar Component
+const CustomTabBar = ({ state, descriptors, navigation }) => {
+  const focusedOptions = descriptors[state.routes[state.index].key].options;
+  if (focusedOptions.tabBarVisible === false) {
+    return null;
+  }
+
   return (
-    <Tab.Navigator>
+    <View style={styles.tabContainer}>
+      {state.routes.map((route, index) => {
+        const { options } = descriptors[route.key];
+        const label =
+          options.tabBarLabel !== undefined
+            ? options.tabBarLabel
+            : options.title !== undefined
+            ? options.title
+            : route.name;
+
+        const isFocused = state.index === index;
+
+        const onPress = () => {
+          const event = navigation.emit({
+            type: 'tabPress',
+            target: route.key,
+            canPreventDefault: true,
+          });
+
+          if (!isFocused && !event.defaultPrevented) {
+            navigation.navigate(route.name);
+          }
+        };
+
+        return (
+          <TouchableOpacity
+            key={route.key}
+            onPress={onPress}
+            style={[styles.tabButton, { backgroundColor: isFocused ? 'rgba(130, 227, 220, 1)' : '#fff' }]}
+          >
+            <Text style={{ color: isFocused ? '#fff' : '#000' }}>{label}</Text>
+          </TouchableOpacity>
+        );
+      })}
+    </View>
+  );
+};
+
+
+const MainTabs = () => {
+  const navigation = useNavigation();
+  const [showBlur, setShowBlur] = useState(false);
+
+  const handleLogout = async () => { // Pass navigation as a parameter
+    try {
+        await AsyncStorage.clear();
+        const keys = await AsyncStorage.getAllKeys();
+        const items = await AsyncStorage.multiGet(keys);
+      
+        console.log("AsyncStorage Cleared!");
+        console.log("Remaining AsyncStorage Items:");
+        items.forEach(([key, value]) => {
+            console.log(`${key}: ${value}`);
+        });
+        ToastAndroid.showWithGravity("Logging out!", ToastAndroid.SHORT, ToastAndroid.TOP);
+        // homestack(); // Call homestack without navigation.navigate('Login')
+        navigation.replace('Login'); // Navigate to 'Login'
+    } catch (error) {
+        console.error('Error clearing AsyncStorage:', error);
+    }
+};
+
+  const Logout  = async () => {
+    setShowBlur(true); 
+    Alert.alert(
+      'Logout',
+      'Are you sure you want to logout?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+          onPress: () => setShowBlur(false),
+        },
+        {
+          text: 'Logout',
+          onPress: () => {
+            handleLogout();
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+  return (
+    <View style={styles.mainContainer}>
+
+    <Tab.Navigator tabBar={props => <CustomTabBar {...props} />}>
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Update" component={Update} />
       <Tab.Screen name="Forum" component={Forum} />
-      <Tab.Screen name="Account" component={Account} />
-    </Tab.Navigator>
+      <Tab.Screen
+        name="Logout"
+        component={Logout}
+        listeners={{
+          tabPress: (e) => {
+            e.preventDefault(); // Prevent default behavior
+            Logout(); // Call logout function instead
+          },
+        }}
+      />
+    </Tab.Navigator></View>
   );
 };
 
@@ -50,5 +154,50 @@ const App = () => {
     </NavigationContainer>
   );
 };
+
+const styles = StyleSheet.create({
+  mainContainer: {
+  flex: 1,
+  backgroundColor: 'transparent', // Set main container background to transparent
+},
+  tabContainer: {
+    blurRadius:20,
+    flexDirection: 'row',
+    position: 'absolute',
+    borderTopWidth: 0,
+    zIndex:0,
+    bottom: 20,
+    height:40,
+    left: 5,
+    right: 5,
+    marginHorizontal:10,
+    borderRadius:100,
+    backgroundColor: '#fff',
+    elevation: 8,
+  },
+  tabButton: {
+    flex: 1,
+    borderRadius:100,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  logoutButton: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#2196F3',
+  },
+  logoutText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  blur: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+});
 
 export default App;

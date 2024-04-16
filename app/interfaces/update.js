@@ -19,6 +19,7 @@ const Update = ({ navigation }) => {
     pH: "",
     Rainfall: "",
   });
+  
 
   useEffect(() => {
     const fetchData = async () => {

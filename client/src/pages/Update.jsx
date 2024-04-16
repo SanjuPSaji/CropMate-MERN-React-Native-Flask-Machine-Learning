@@ -5,7 +5,6 @@ import "../assets/Button.css";
 const id = Cookies.get("id");
 
 const Update = () => {
-  const [result, setResult] = useState(null);
   const [reloadPage, setReloadPage] = useState(false);
   // const [iid, setIid] = useState('');
   useEffect(() => {
@@ -48,7 +47,6 @@ const Update = () => {
         body: JSON.stringify(formData),
       });
       const predictdata = await response.json();
-      setResult(predictdata.result);
       console.log(predictdata.Crop1);
 
       const datatoapi = await fetch("http://localhost:4999/data", {

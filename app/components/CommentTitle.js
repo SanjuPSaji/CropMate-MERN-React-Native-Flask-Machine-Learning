@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Avatar, Button, Card, Text } from "react-native-paper";
-import { StyleSheet, TouchableOpacity, View, Image } from "react-native";
+import { StyleSheet, TouchableOpacity, View, Image,ToastAndroid } from "react-native";
 import moment from "moment";
 import Icon from "react-native-vector-icons/Entypo";
 import Icons from "react-native-vector-icons/EvilIcons";
 import { decode } from "html-entities";
 import { Menu, MenuItem, MenuDivider } from "react-native-material-menu";
+import CreatePost from "../components/CreatePost";
+import Reply from '../components/Reply'
+import deleteData from "../helper/deleteData";
 
 const LeftContent = () => (
   <View>
@@ -13,9 +16,41 @@ const LeftContent = () => (
   </View>
 );
 
-const CommentTitle = ({ posts, type, id }) => {
+const CommentTitle = ({ posts, type, id, refresh ,onClose }) => {
   const [menuVisibility, setMenuVisibility] = useState([]);
   const [postmenu, setPostMenu] = useState(false);
+  const [editModalVisible, seteditModalVisible] = useState(false);
+  const [selectHeadingEdit, setselectHeadingEdit] = useState(null);
+  const [selectContentEdit, setselectContentEdit] = useState(null)
+  const [selectPostId, setselectPostId] = useState(null)
+  const [selectcommentId, setselectcommentId] = useState(null)
+  const [modalVisible, setModalVisible] = useState(false)
+
+  const openModal = (post) => {
+    setselectContentEdit(post.content)
+    setselectcommentId(post._id)
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setselectContentEdit(null)
+    setselectcommentId(null)
+    setModalVisible(false);
+  };
+
+  const openEditModal = (post,postid) => {
+    
+    setselectHeadingEdit(post.heading);
+    setselectContentEdit(post.content);
+    setselectPostId(postid);
+  };
+
+  const closeEditModal = () => {
+    setselectHeadingEdit(null);
+    setselectContentEdit(null);
+    setselectPostId(null);
+    seteditModalVisible(false);
+  };
 
   const togglepostmenu = () => {
     setPostMenu(true);
@@ -35,7 +70,47 @@ const CommentTitle = ({ posts, type, id }) => {
     setMenuVisibility(posts.map(() => false));
   };
 
-  console.log(posts);
+  const deletepost= async (postId,type) => {
+    if(type=="post"){
+    try {
+      const response = await deleteData(postId, "/DeletePostAndComments");
+      console.log(response); 
+      ToastAndroid.showWithGravity(response.message, ToastAndroid.SHORT, ToastAndroid.TOP);
+      hidepostmenu();
+      refresh();
+      onClose();
+    } catch (error) {
+      console.error("Error deleting post:", error);
+      ToastAndroid.showWithGravity("Failed to delete post", ToastAndroid.SHORT, ToastAndroid.TOP);
+      hideMenu();
+    }
+    }else {
+      try {
+        const response = await deleteData(postId, "/DeleteComment","comment");
+        console.log(response); 
+        ToastAndroid.showWithGravity(response.message, ToastAndroid.SHORT, ToastAndroid.TOP);
+        hideMenu();
+        refresh();
+        onClose();
+      } catch (error) {
+        console.error("Error deleting post:", error);
+        ToastAndroid.showWithGravity("Failed to delete post", ToastAndroid.SHORT, ToastAndroid.TOP);
+        hideMenu();
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (selectHeadingEdit) {
+      seteditModalVisible(true);
+    }
+  }, [selectHeadingEdit]);
+
+  useEffect(() => {
+    if (selectContentEdit) {
+      seteditModalVisible(true);
+    }
+  }, [selectContentEdit]);
 
   const onPress = () => {};
   return (
@@ -63,9 +138,9 @@ const CommentTitle = ({ posts, type, id }) => {
                 }
                 onRequestClose={() => hidepostmenu()}
               >
-                <MenuItem onPress={hidepostmenu}>Edit</MenuItem>
+                <MenuItem onPress={() => openEditModal(posts,posts._id)}>Edit</MenuItem>
                 <MenuDivider />
-                <MenuItem onPress={hidepostmenu}>Delete</MenuItem>
+                <MenuItem onPress={() => deletepost(posts._id,type)}>Delete</MenuItem>
               </Menu>
             </View>
           )}
@@ -134,9 +209,9 @@ const CommentTitle = ({ posts, type, id }) => {
                   }
                   onRequestClose={() => hideMenu(post._id)}
                 >
-                  <MenuItem onPress={hideMenu}>Edit</MenuItem>
+                  <MenuItem  onPress={() => openModal(post)}>Edit</MenuItem>
                   <MenuDivider />
-                  <MenuItem onPress={onPress}>Delete</MenuItem>
+                  <MenuItem onPress={() => deletepost(post._id,type)}>Delete</MenuItem>
                 </Menu>
               </View>
             )}
@@ -181,6 +256,30 @@ const CommentTitle = ({ posts, type, id }) => {
             </Card.Content>
           </Card>
         ))
+      )}
+      {selectHeadingEdit != null  && (
+      <CreatePost
+          isVisible={editModalVisible}
+          onClose={closeEditModal}
+          hideMenu={hidepostmenu}
+          refresh={refresh}
+          creatorId={id}
+          postId={selectPostId}
+          heading={selectHeadingEdit}
+          content={selectContentEdit}
+          type="Edit"
+        />
+      )}
+      {selectContentEdit != null  && (
+      <Reply
+          isVisible={modalVisible}
+          onClose={closeModal}
+          hideMenu={hideMenu}
+          refresh={refresh}
+          content={selectContentEdit}
+          postId={selectcommentId}
+          type="Edit"
+        />
       )}
     </View>
   );

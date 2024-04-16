@@ -16,7 +16,7 @@ module.exports.Comment = async (req, res, next) => {
     await newComment.save();
 
     // Respond with success message
-    res.status(201).json({ message: "Comment created successfully", comment: newComment });
+    res.status(201).json({ message: "Replied successfully", comment: newComment });
   } catch (error) {
     // Handle errors
     console.error("Error creating comment:", error);
@@ -42,7 +42,6 @@ module.exports.Commentfetch = async (req, res, next) => {
 
 module.exports.UpdateComment = async (req, res) => {
   const { postId, content } = req.body;
-
   try {
       // Find the post by ID and update its heading and content
       const updatedComment = await CommentModel .findByIdAndUpdate(
@@ -50,12 +49,11 @@ module.exports.UpdateComment = async (req, res) => {
           { content },
           { new: true } 
       );
-
       if (!updatedComment) {
-          return res.status(404).json({ message: 'Post not found' });
+          return res.status(280).json({ message: 'Post not found' });
       }
 
-      res.status(200).json({ message: 'Comment updated successfully', post: updatedComment });
+      res.status(200).json({ status:true, message: 'Comment updated successfully', post: updatedComment });
   } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Internal server error' });

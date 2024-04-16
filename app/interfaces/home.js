@@ -44,6 +44,7 @@ const Home = ({ navigation }) => {
             { withCredentials: true }
           );
           const { status, user, id } = response.data;
+          await AsyncStorage.setItem("name",user);
           setUsername(user);
 
           setuserid(id);
@@ -58,7 +59,7 @@ const Home = ({ navigation }) => {
           const cropNames = [Crop1, Crop2, Crop3, Crop4, Crop5];
           setCrops(cropNames);
 
-          // await AsyncStorage.setItem("id", id);
+          await AsyncStorage.setItem("id", id);
           // await AsyncStorage.setItem("username", user);
           if (!status) {
             await AsyncStorage.removeItem("token");

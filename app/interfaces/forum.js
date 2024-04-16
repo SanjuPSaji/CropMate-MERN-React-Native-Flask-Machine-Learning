@@ -5,13 +5,23 @@ import axios from "axios";
 import PostTitle from '../components/PostTitle'
 import Icon from "react-native-vector-icons/Entypo";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import CreatePost from "../components/CreatePost";
 const url = require('../url');
 
 const Update = ({ navigation }) => {
   const [posts, setPosts] = useState([]);
   const [refreshing, setRefreshing] = React.useState(false);
   const [userid,setuserid]=useState("");
+  const [modalVisible, setModalVisible] = useState(false);
+  const [username,setusername]=useState("");
+
+   const openModal = () => {
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
   
 
   const onRefresh = React.useCallback(() => {
@@ -32,8 +42,11 @@ const Update = ({ navigation }) => {
       {},
       { withCredentials: true }
     );
+
     const { status, user, id } = getid.data;
+    console.log(user)
     setuserid(id);
+    setusername(user);
   } catch (error) {
     console.error('Error fetching posts:', error);
   }
@@ -72,25 +85,36 @@ const Update = ({ navigation }) => {
   return (
     <>
     <ScrollView  refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>} >
-      <PostTitle type="posts" posts={posts} id={userid} navigation={navigation} />
+      <PostTitle type="posts" posts={posts} id={userid} navigation={navigation} name={username} 
+          onRefresh={onRefresh} 
+          onClose={closeModal} />
       
     </ScrollView>
     <TouchableOpacity
         style={{
           position: 'absolute',
-          bottom: 20,
-          right: 20,
-          backgroundColor: 'green',
+          bottom: 70,
+          right: 30,
+          backgroundColor: 'rgba(130, 227, 220, 1)',
           padding: 0,
           borderRadius: 100,
         }}
         onPress={() => {
-          // Handle button press action
+          openModal()
         }}
       >
-        <Text style={{ color: 'white' }}><Icon name="plus" size={39} color="#000" />
+        <Text style={{ color: 'white' }}><Icon name="plus" size={55} color="#000" />
 </Text>
       </TouchableOpacity>
+      <CreatePost
+          isVisible={modalVisible}
+          onClose={closeModal}
+          onRefresh={onRefresh}
+          creatorId={userid}
+          creatorname={username}
+          type="Create Post"
+          closeWholeModal={closeModal}
+        />
       </>
   );
 };

@@ -9,9 +9,6 @@ const url = require('../url');
 
 const PostDetails = ({ postId, isVisible, onClose,id }) => {
 
-
-
-
   const handleClose = () => {
     onClose();
   };
