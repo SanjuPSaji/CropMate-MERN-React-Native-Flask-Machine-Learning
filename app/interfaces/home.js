@@ -55,7 +55,7 @@ const Home = ({ navigation }) => {
           //   return;
           // }
           const response = await axios.post(
-            `${url}/`,
+            `${url}/mobile`,
             {},
             { withCredentials: true }
           );

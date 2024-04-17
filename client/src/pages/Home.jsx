@@ -25,12 +25,14 @@ const Home = () => {
         // navigate("/login");
       }
       const tok = cookies.token
+      console.log(tok)
       const { data } = await axios.post(
         `${url}`,
         {tok},
         { withCredentials: true }
       );
       const { status, user, id } = data;
+      console.log(data)
       setUsername(user);
       setIid(id);
       window.config.id = id;
