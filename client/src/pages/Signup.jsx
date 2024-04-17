@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast, { Toaster } from 'react-hot-toast';
 import Cookies from 'js-cookie';
+import url from '../url';
+
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -34,7 +36,7 @@ const Signup = () => {
       e.preventDefault();
       try {
         const { data } = await axios.post(
-          "http://localhost:4999/signup",
+          `${url}/signup`,
           {
             ...inputValue,
           },

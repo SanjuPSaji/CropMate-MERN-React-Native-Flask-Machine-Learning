@@ -10,7 +10,7 @@ import '../util/config'
 import getCropDetails from "../util/CropDetails";
 import { FaInstagram, FaTwitter } from 'react-icons/fa'; 
 import { Link } from "react-router-dom";
-console.log(import.meta.env.uri)
+import url from '../url';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -22,11 +22,12 @@ const Home = () => {
   useEffect(() => {
     const verifyCookie = async () => {
       if (!cookies.token) {
-        navigate("/login");
+        // navigate("/login");
       }
+      const tok = cookies.token
       const { data } = await axios.post(
-        "http://localhost:4999/",
-        {},
+        `${url}`,
+        {tok},
         { withCredentials: true }
       );
       const { status, user, id } = data;
@@ -50,7 +51,7 @@ const Home = () => {
   useEffect(() => {
     // Fetch data from your API
     if (window.config.id) { // Check if window.config.id is available
-      axios.post('http://localhost:4999/Cropfetch', { id: window.config.id })
+      axios.post(`${url}/Cropfetch`, { id: window.config.id })
         .then(response => {
           // Extract crop names from the response
           const { Crop1, Crop2, Crop3, Crop4, Crop5 } = response.data;
