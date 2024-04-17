@@ -70,6 +70,7 @@ const Login = () => {
   };
 
   return (
+    <div className="login_container" style={{ backgroundImage: `url("LOGIN.png")`, backgroundSize: "cover" }}>
     <div className="form_container">
       <h2>Login Account</h2>
       <form onSubmit={handleSubmit}>
@@ -84,6 +85,7 @@ const Login = () => {
             onChange={handleOnChange}
           />
           <label htmlFor="email">Email</label>
+          
         </div>
         <div className="form-floating">
           <input
@@ -102,6 +104,7 @@ const Login = () => {
         </span>
       </form>
       <ToastContainer />
+    </div>
     </div>
   );
 };

@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import "../assets/Button.css";
+import toast, { Toaster } from 'react-hot-toast';
 // import axios from "axios";
 const id = Cookies.get("id");
+import { Link, useNavigate } from "react-router-dom";
 
 const Update = () => {
   const [reloadPage, setReloadPage] = useState(false);
+  const navigate = useNavigate();
   // const [iid, setIid] = useState('');
   useEffect(() => {
     if (!id && !reloadPage) {
@@ -58,6 +61,9 @@ const Update = () => {
       });
       const detailsdata = await datatoapi.json();
       console.log(detailsdata.message);
+      toast.success(detailsdata.message,{
+        onClose: setTimeout(function () { navigate("/"); }, 1500)
+    });
     } catch (error) {
       console.error("Error:", error);
     }
@@ -185,6 +191,8 @@ const Update = () => {
 
         <div className="row mt-4"></div>
       </form>
+      
+      <Toaster />
     </div>
   );
 };

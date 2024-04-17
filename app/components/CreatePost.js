@@ -192,7 +192,6 @@ const CreatePostS = ({
     <Modal
       isVisible={isVisible}
       onBackdropPress={onClose}
-      backdropOpacity={0.5}
       onRequestClose={onClose}
       animationType="slide"
       transparent={true}

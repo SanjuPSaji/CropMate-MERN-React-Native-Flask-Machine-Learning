@@ -1,7 +1,7 @@
 import { formatDistanceToNow } from 'date-fns';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
+import toast, { Toaster } from 'react-hot-toast';
 import EditDetails from '../components/EditDetails';
 import { Modal } from 'react-bootstrap';
 import { useState } from 'react';
@@ -19,6 +19,10 @@ const PostTitles = ({ posts,type }) => {
     setShowEditDetails(true);
   };
 
+  const handleClose= ()=> {
+    setShowEditDetails(false);
+  }
+
   const handleDelete = async (postId) => {
 
     try {
@@ -26,32 +30,14 @@ const PostTitles = ({ posts,type }) => {
           // Make the DELETE request to delete the comment
           const response = await axios.delete(`http://localhost:4999/DeleteComment?commentId=${postId}`);
           toast.success('Comment deleted successfully!', {
-              position: 'top-right',
-              autoClose: 1200,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
               onClose: setTimeout(function () { window.location.reload(1); }, 1500)
           });
       } else if (type === "post" || type === "posts") {
           // Make the DELETE request to delete the post and associated comments
           const response = await axios.delete(`http://localhost:4999/DeletePostAndComments?postId=${postId}`);
           toast.success('Post and associated comments deleted successfully!', {
-              position: 'top-right',
-              autoClose: 1200,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              onClose: () => {
-                setTimeout(function () {
-                    window.location.href = '/forum'; // Navigate to the forum page
-                }, 1300);
-            }
-          });
+            onClose: setTimeout(function () { window.location.reload(1); }, 1500)
+        });
       }
   } catch (error) {
       // Handle error
@@ -142,7 +128,7 @@ const PostTitles = ({ posts,type }) => {
           <EditDetails post={selectedPost} type={type} onClose={() => setShowEditDetails(false)} />
         </Modal.Body>
       </Modal>
-      <ToastContainer />
+      <Toaster />
     </div>
   );
 };

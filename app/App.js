@@ -11,7 +11,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Alert, ToastAndroid } from 'r
 import { NavigationContainer, useNavigation  } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { BlurView } from "@react-native-community/blur";
+import { AppState } from 'react-native';
 
 
 const Stack = createStackNavigator();
@@ -66,7 +66,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
 
 const MainTabs = () => {
   const navigation = useNavigation();
-  const [showBlur, setShowBlur] = useState(false);
+  
 
   const handleLogout = async () => { // Pass navigation as a parameter
     try {
@@ -88,7 +88,6 @@ const MainTabs = () => {
 };
 
   const Logout  = async () => {
-    setShowBlur(true); 
     Alert.alert(
       'Logout',
       'Are you sure you want to logout?',
@@ -96,7 +95,6 @@ const MainTabs = () => {
         {
           text: 'Cancel',
           style: 'cancel',
-          onPress: () => setShowBlur(false),
         },
         {
           text: 'Logout',
@@ -161,7 +159,6 @@ const styles = StyleSheet.create({
   backgroundColor: 'transparent', // Set main container background to transparent
 },
   tabContainer: {
-    blurRadius:20,
     flexDirection: 'row',
     position: 'absolute',
     borderTopWidth: 0,

@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import TopCropCard from '../components/TopCropCard'
 import RestCropCards from '../components/RestCropCards'
 import '../util/config'
+import getCropDetails from "../util/CropDetails";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -53,7 +54,18 @@ const Home = () => {
   
           // Store crop names in an array
           const cropNames = [Crop1, Crop2, Crop3, Crop4, Crop5];
-          setCrops(cropNames);
+
+        // Create an array to store crop details
+        const cropDetailsArray = [];
+
+        // Loop through crop names and fetch details for each crop
+        for (const cropName of cropNames) {
+          const cropDetails = getCropDetails(cropName);
+          cropDetailsArray.push(cropDetails);
+        }
+
+        // Set the fetched crop details in state
+        setCrops(cropDetailsArray);
         })
         .catch(error => {
           console.error('Error fetching crops:', error);
@@ -61,14 +73,13 @@ const Home = () => {
     }
   }, [window.config.id]); // Run whenever window.config.id changes
   
+  console.log(crops)
 
   return (
     <>
       <div className="home_page">
         
-        <h4>
-          Welcome <span>{username}</span>
-        </h4>
+        
         <div className="card_container">
         {crops.length > 0 && <TopCropCard crop={crops[0]} />}
           {crops.length > 0 && <RestCropCards crops={crops} />}

@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useCallback } from 'react';
 import Cookies from 'js-cookie';
-import { ToastContainer, toast } from 'react-toastify';
+import toast, { Toaster } from 'react-hot-toast';
 import CommentBox from '../components/CommentBox'
 
 
@@ -8,6 +8,14 @@ const creatorname = Cookies.get('username');
 const creatorId = Cookies.get('id');
 
 const CreatePost = () => {
+  const [refreshing, setRefreshing] = useState(false);
+
+    const onRefresh = useCallback(() => {
+      setRefreshing(true); 
+      setTimeout(() => {
+        setRefreshing(false);
+      }, 2000);
+    }, []);
 
     useEffect(() => {
         console.log(creatorname)
@@ -40,30 +48,18 @@ const CreatePost = () => {
             });
             const detailsdata = await datatoapi.json();
             console.log(detailsdata.message);
-            toast.success('Post created successfully!', {
-                position: 'top-right',
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined
-              });
+            toast.success(detailsdata.message,{
+              onClose: setTimeout(function () { window.location.reload(1); }, 1500)
+          });
+                     
             
 
         } catch (error) {
             console.error('Error:', error);
-            toast.error('Failed to create post. Please try again later.', {
-                position: 'top-right',
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined
-              });
+            toast.error('Failed to create post. Please try again later.')
         }
     };
+
     
   return (
     <div className="text-center " >
@@ -87,7 +83,7 @@ const CreatePost = () => {
         </div>
         
       <CommentBox postId="postId" heading={formData.heading} type="post" onCommentSubmit={handleSubmit} />
-      <ToastContainer />
+      <Toaster />
     </div>
   );
 };

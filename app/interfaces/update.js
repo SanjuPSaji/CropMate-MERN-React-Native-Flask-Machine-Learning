@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text,  ScrollView,ToastAndroid } from "react-native";
 import axios from "axios";
-import { Button, TextInput,ActivityIndicator } from 'react-native-paper';
+import { Button, TextInput,ActivityIndicator, Banner  } from 'react-native-paper';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const url = require('../url');
@@ -60,6 +60,7 @@ const Update = ({ navigation }) => {
       ToastAndroid.showWithGravity(detailsdata.data.message, ToastAndroid.SHORT, ToastAndroid.TOP);
 
     } catch (error) {
+      setLoading(false);
       console.error("Error:", error);
     }
   };
@@ -68,7 +69,6 @@ const Update = ({ navigation }) => {
     <>
     <ScrollView>
       <View style={{ margin: 20 }}>
-        <Text>Crop Recommendation System</Text>
         <TextInput
         label="Nitrogen"
         mode="outlined"
@@ -81,7 +81,7 @@ const Update = ({ navigation }) => {
         <TextInput
         label="Phosphorus"
         mode="outlined"
-          style={{ height: 40, borderColor: 'gray', borderWidth: 0 }}
+          style={{ height: 40, borderColor: 'gray', borderWidth: 0, marginTop:20 }}
           keyboardType="numeric"
           placeholder="Enter Phosphorus"
           value={formData.Phosphorus}
@@ -90,7 +90,7 @@ const Update = ({ navigation }) => {
         <TextInput
         label="Potassium"
         mode="outlined"
-          style={{ height: 40, borderColor: 'gray', borderWidth: 0 }}
+          style={{ height: 40, borderColor: 'gray', borderWidth: 0, marginTop:20  }}
           keyboardType="numeric"
           placeholder="Enter Potassium"
           value={formData.Potassium}
@@ -99,7 +99,7 @@ const Update = ({ navigation }) => {
         <TextInput
         label="Temperature"
         mode="outlined"
-          style={{ height: 40, borderColor: 'gray', borderWidth: 0 }}
+          style={{ height: 40, borderColor: 'gray', borderWidth: 0, marginTop:20  }}
           keyboardType="numeric"
           placeholder="Enter Temperature"
           value={formData.Temperature}
@@ -108,7 +108,7 @@ const Update = ({ navigation }) => {
         <TextInput
         label="Humidity"
         mode="outlined"
-          style={{ height: 40, borderColor: 'gray', borderWidth: 0 }}
+          style={{ height: 40, borderColor: 'gray', borderWidth: 0, marginTop:20  }}
           keyboardType="numeric"
           placeholder="Enter Humidity"
           value={formData.Humidity}
@@ -117,7 +117,7 @@ const Update = ({ navigation }) => {
         <TextInput
         label="pH"
         mode="outlined"
-          style={{ height: 40, borderColor: 'gray', borderWidth: 0 }}
+          style={{ height: 40, borderColor: 'gray', borderWidth: 0, marginTop:20  }}
           keyboardType="numeric"
           placeholder="Enter pH"
           value={formData.pH}
@@ -126,7 +126,7 @@ const Update = ({ navigation }) => {
         <TextInput
         label="Rainfall"
         mode="outlined"
-          style={{ height: 40, borderColor: 'gray', borderWidth: 0 }}
+          style={{ height: 40, borderColor: 'gray', borderWidth: 0, marginTop:20  }}
           keyboardType="numeric"
           placeholder="Enter Rainfall"
           value={formData.Rainfall}
@@ -135,7 +135,7 @@ const Update = ({ navigation }) => {
         <Button
         title="Submit"
         mode="contained"
-        style={{ width: 200, marginTop:10, marginHorizontal:70 }}
+        style={{ width: 200, marginTop:20, marginHorizontal:70 }}
         onPress={handleSubmit}>{loading ? <ActivityIndicator color="#fff" /> : "Submit"}</Button>
       </View>
     </ScrollView>

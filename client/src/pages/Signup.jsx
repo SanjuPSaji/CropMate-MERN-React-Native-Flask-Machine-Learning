@@ -61,7 +61,9 @@ const Signup = () => {
   
 
   return (
-    <div className="form_container">
+    
+    <div className="signup_container" style={{ backgroundImage: `url("LOGIN.png")`, backgroundSize: "cover" }}>
+    <div className="form_container babel">
           <h2>Signup Account</h2>
           <form onSubmit={handleSubmit}>
             <div>
@@ -100,6 +102,7 @@ const Signup = () => {
             </span>
           </form>
           <ToastContainer />
+        </div>
         </div>
   )
 }

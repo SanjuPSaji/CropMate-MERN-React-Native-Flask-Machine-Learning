@@ -4,7 +4,7 @@ import { Home, Login, Signup } from "./pages";
 import Update from "./pages/Update";
 import Navbar from "./components/Navbar";
 import Posts from "./pages/Post";
-import PostDetails from "./pages/PostDetails"; 
+import PostDetails from "./pages/PostDetails";
 
 function App() {
   const location = useLocation();

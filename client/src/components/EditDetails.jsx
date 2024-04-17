@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from 'axios';
+import toast, { Toaster } from 'react-hot-toast';
 import '../assets/Button.css'
 
-const EditDetails = ({ type, post }) => {
+const EditDetails = ({ type, post,onClose }) => {
   const [heading, setHeading] = useState(post ? post.heading : ""); // State for heading input value
   const [comment, setComment] = useState(post ? post.content : ""); // State for comment input value
 
@@ -22,27 +23,68 @@ const EditDetails = ({ type, post }) => {
 
         try{
             if(type === "post" || type === "posts"){
-                const response = await axios.put('http://localhost:4999/UpdatePost', {
+                  try {
+                    const response = await axios.put('http://localhost:4999/UpdatePost', {
                     postId: post._id,
                     heading,
                     content: comment 
                   });
           
                   console.log("Response:", response.data);
+            
+                    if (response.data.post) {
+                      
+                      toast.success(response.data.message,{
+                        onClose: setTimeout(function () { window.location.reload(1); }, 1500)
+                    });
+                    } else {
+                      toast.error(
+                        response.data.message,{
+                          onClose: setTimeout(function () { window.location.reload(1); }, 1500)
+                      });
+                    }
+                  } catch (error) {
+                    console.log(error);
+                    ToastAndroid.showWithGravity(
+                      error,
+                      ToastAndroid.SHORT,
+                      ToastAndroid.TOP
+                    );
+                  }
+
+
+
+
 
             } else if (type === "comment"){ 
-                const response = await axios.put('http://localhost:4999/UpdateComment', {
+                  try {
+                    const response = await axios.put('http://localhost:4999/UpdateComment', {
                     postId: post._id,
                     content: comment 
                   });
-          
-                  console.log("Response:", response.data);
-            }
+                      console.log(response.message)
+                    if (response.status=="200") {
+                      toast.success("Comment updated!",{
+                        onClose: setTimeout(function () { window.location.reload(1); }, 1500)
+                    });
+                    } else {
+                      toast.error("Internal server error");
+                      setTimeout(() => {
+                        done();
+                      }, 2000);
+                    }
+                }catch (error) {
+                  console.error("Error:", error);
+              }
 
-        }catch (error) {
+               }} catch (error) {
             console.error("Error:", error);
           }
     };
+
+    const done = () => {
+      onClose();
+    }
 
 
   useEffect(() => {
@@ -88,6 +130,8 @@ const EditDetails = ({ type, post }) => {
         </button>
       </div>
       </form>
+      
+      <Toaster />
     </div>
   );
 };

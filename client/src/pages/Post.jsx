@@ -1,10 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import PostTitles from '../components/PostTitles';
 import CreatePost from '../components/CreatePost';
 
 const Post = () => {
     const [posts, setPosts] = useState([]);
+    const [refreshing, setRefreshing] = useState(false);
+
+    const onRefresh = useCallback(() => {
+      setRefreshing(true);
+      fetchData(); 
+      setTimeout(() => {
+        setRefreshing(false);
+      }, 2000);
+    }, []);
 
     useEffect(() => {
       // Fetch posts data from your API
@@ -26,7 +35,7 @@ const Post = () => {
         
         <PostTitles type="posts" posts={posts} />
         <div style={{width: '1000px', height: '400px', marginLeft: '12px' }}>
-        <CreatePost/>
+        <CreatePost onRefresh={onRefresh}/>
         </div>
       </div>
     );
