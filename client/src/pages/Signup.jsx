@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import toast, { Toaster } from 'react-hot-toast';
+import Cookies from 'js-cookie';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ const Signup = () => {
   
   const handleSuccess = (msg) =>
       toast.success(msg, {
-        position: "bottom-right",
+        position: "top",
       });
   
   const handleSubmit = async (e) => {
@@ -39,7 +40,10 @@ const Signup = () => {
           },
           { withCredentials: true }
         );
-        const { success, message } = data;
+        const { success, message,token } = data;
+        if(token){
+          Cookies.set('token', token);
+          }
         if (success) {
           handleSuccess(message);
           setTimeout(() => {
@@ -63,8 +67,10 @@ const Signup = () => {
   return (
     
     <div className="signup_container" style={{ backgroundImage: `url("LOGIN.png")`, backgroundSize: "cover" }}>
-    <div className="form_container babel">
-          <h2>Signup Account</h2>
+    <div className="form_container" >
+      <h1 style={{marginTop:-250, fontFamily: "cursive", 
+fontStyle: "italic bold ", fontSize:"60px"}} >Crop Mate</h1>
+          <h2 style={{}}>Signup Account</h2>
           <form onSubmit={handleSubmit}>
             <div>
               <label htmlFor="email">Email</label>
@@ -101,7 +107,7 @@ const Signup = () => {
               Already have an account? <Link to={"/login"}>Login</Link>
             </span>
           </form>
-          <ToastContainer />
+      <Toaster />
         </div>
         </div>
   )

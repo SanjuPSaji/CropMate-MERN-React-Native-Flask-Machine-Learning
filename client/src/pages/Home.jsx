@@ -8,6 +8,9 @@ import TopCropCard from '../components/TopCropCard'
 import RestCropCards from '../components/RestCropCards'
 import '../util/config'
 import getCropDetails from "../util/CropDetails";
+import { FaInstagram, FaTwitter } from 'react-icons/fa'; 
+import { Link } from "react-router-dom";
+console.log(import.meta.env.uri)
 
 const Home = () => {
   const navigate = useNavigate();
@@ -22,7 +25,7 @@ const Home = () => {
         navigate("/login");
       }
       const { data } = await axios.post(
-        "http://localhost:4999",
+        "http://localhost:4999/",
         {},
         { withCredentials: true }
       );
@@ -85,6 +88,34 @@ const Home = () => {
           {crops.length > 0 && <RestCropCards crops={crops} />}
         </div>
       </div>
+      
+      <div className="footer_columns">
+        <div className="contact_details">
+          <p> <h3>Contact</h3></p>
+          <p>Email: cropmate@email.com</p>
+          <p>Phone: +1234567890</p>
+        </div>
+        <div className="footer_row"></div>
+          <div className="footer_column">
+            <h3>Account</h3>
+            <p>
+              <Link to="/signup">Create an account</Link> 
+            </p>
+          </div>
+          
+          <div className="footer_column">
+            <h3>Follow Us</h3>
+            <p className="footer_icons">
+              <a href="https://www.instagram.com">
+                <FaInstagram style={{ fontSize: "24px", marginRight: "10px" }} />
+              </a>
+              <a href="https://www.twitter.com">
+                <FaTwitter style={{ fontSize: "24px" }} />
+              </a>
+            </p>
+          </div>
+        </div>
+      
       <ToastContainer />
     </>
   );

@@ -21,7 +21,9 @@ const Navbar = () => {
 
   return (
     <div>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light" style={{
+  backgroundColor: "#fff", 
+  boxShadow: "0 5px 4px rgba(0, 0, 0, 0.1)"}}>
         <div className="container-fluid">
           <button
             className="navbar-toggler"

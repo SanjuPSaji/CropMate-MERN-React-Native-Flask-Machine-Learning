@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import toast, { Toaster } from 'react-hot-toast';
+import Cookies from 'js-cookie';
+import url from '../url'
+
+console.log(url)
 
 const Login = () => {
   const navigate = useNavigate();
@@ -29,28 +33,25 @@ const Login = () => {
                 progress: undefined
     });
   const handleSuccess = (msg) =>
-    toast.success('User Logged in Successfully', {
-      position: 'top-right',
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined
-    });
+    toast.success('User Logged in Successfully')
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        "http://localhost:4999/login",
+        `${url}`,
         {
           ...inputValue,
         },
         { withCredentials: true }
       );
       console.log(data);
-      const { success, message } = data;
+
+      const { success, message,token } = data;
+      if(token){
+        
+      Cookies.set('token', token);
+      }
       if (success) {
         handleSuccess(message);
         setTimeout(() => {
@@ -72,7 +73,9 @@ const Login = () => {
   return (
     <div className="login_container" style={{ backgroundImage: `url("LOGIN.png")`, backgroundSize: "cover" }}>
     <div className="form_container">
-      <h2>Login Account</h2>
+      <h1 style={{marginTop:-200, fontFamily: "cursive", 
+fontStyle: "italic bold ", fontSize:"60px"}} >Crop Mate</h1>
+      <h2 style={{marginTop:40}}>Login Account</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-floating">
           <input
@@ -103,7 +106,7 @@ const Login = () => {
           Already have an account? <Link to={"/signup"}>Signup</Link>
         </span>
       </form>
-      <ToastContainer />
+      <Toaster />
     </div>
     </div>
   );

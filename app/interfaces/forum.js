@@ -85,7 +85,6 @@ const Update = ({ navigation }) => {
   return (
     <>
     <ScrollView  refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}  >
-    <Text style={{fontSize:40}}> Welcome, {username}</Text>
       <PostTitle type="posts" posts={posts} id={userid} navigation={navigation} name={username} 
           onRefresh={onRefresh} 
           onClose={closeModal} />

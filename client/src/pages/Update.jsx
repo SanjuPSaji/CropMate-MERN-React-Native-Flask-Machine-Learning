@@ -61,6 +61,7 @@ const Update = () => {
       });
       const detailsdata = await datatoapi.json();
       console.log(detailsdata.message);
+
       toast.success(detailsdata.message,{
         onClose: setTimeout(function () { navigate("/"); }, 1500)
     });
@@ -70,7 +71,7 @@ const Update = () => {
   };
 
   return (
-    <div className="soil_container">
+    <div className="soil_container" style={{height:"200%"}}>
       <h3>
         Crop Recommendation System{" "}
         <span role="img" aria-label="plant">
@@ -79,7 +80,7 @@ const Update = () => {
       </h3>
       <form onSubmit={handleSubmit}>
         <div className="row">
-          <div className="form-floating col-md-4">
+          <div className="form-floating col-md-6 mt-3">
             <input
               type="number"
               id="Nitrogen"
@@ -94,7 +95,7 @@ const Update = () => {
             />
             <label htmlFor="Nitrogen">Nitrogen </label>
           </div>
-          <div className="form-floating col-md-4">
+          <div className="form-floating col-md-6 mt-3">
             <input
               type="number"
               id="Phosphorus"
@@ -109,7 +110,7 @@ const Update = () => {
             />
             <label htmlFor="Phosphorus">Phosphorus </label>
           </div>
-          <div className="form-floating col-md-4">
+          <div className="form-floating col-md-6 mt-3">
             <input
               type="number"
               id="Potassium"
@@ -124,7 +125,7 @@ const Update = () => {
             />
             <label htmlFor="Potassium">Potassium </label>
           </div>
-          <div className="form-floating col-md-4">
+          <div className="form-floating col-md-6 mt-3">
             <input
               type="number"
               id="Temperature"
@@ -139,7 +140,7 @@ const Update = () => {
             />
             <label htmlFor="Temperature">Temperature </label>
           </div>
-          <div className="form-floating col-md-4">
+          <div className="form-floating col-md-6 mt-3">
             <input
               type="number"
               id="Humidity"
@@ -154,7 +155,7 @@ const Update = () => {
             />
             <label htmlFor="Humidity">Humidity </label>
           </div>
-          <div className="form-floating col-md-4">
+          <div className="form-floating col-md-6 mt-3">
             <input
               type="number"
               id="pH"
@@ -169,7 +170,7 @@ const Update = () => {
             />
             <label htmlFor="pH">pH </label>
           </div>
-          <div className="form-floating col-md-4">
+          <div className="form-floating col-md-6 mt-3">
             <input
               type="number"
               id="Rainfall"
@@ -184,13 +185,14 @@ const Update = () => {
             />
             <label htmlFor="Rainfall">Rainfall </label>
           </div>
-          <div className="col-md-4">
+          <div className="col-md-6 mt-3">
             <button className="btn-hover color-1">Update Details</button>
           </div>
         </div>
 
         <div className="row mt-4"></div>
       </form>
+      
       
       <Toaster />
     </div>

@@ -11,13 +11,13 @@ module.exports.Signup = async (req, res, next) => {
     }
     const user = await User.create({ email, password, name, createdAt });
     const token = createSecretToken(user._id); //creating unique token for the user
-    res.cookie("token", token, {
-      withCredentials: true,
-      httpOnly: false,
-    });
+    // res.cookie("token", token, {
+    //   withCredentials: true,
+    //   httpOnly: false,
+    // });
     res
       .status(201)
-      .json({ message: "User signed in successfully", success: true, user });
+      .json({ message: "User signed in successfully", success: true, user,token:token });
     next();
   } catch (error) {
     console.error(error);
@@ -39,11 +39,11 @@ module.exports.Login = async (req, res, next) => {
       return res.json({message:'Incorrect password' }) 
     }
      const token = createSecretToken(user._id);
-     res.cookie("token", token, {
-       withCredentials: true,
-       httpOnly: false,
-     });
-     res.status(201).json({ message: "User logged in successfully", success: true,user });
+    //  res.cookie("token", token, {
+    //    withCredentials: true,
+    //    httpOnly: false,
+    //  });
+     res.status(201).json({ message: "User logged in successfully", success: true,user, token: token });
      next()
   } catch (error) {
     console.error(error);

@@ -7,6 +7,7 @@ import { Modal } from 'react-bootstrap';
 import { useState } from 'react';
 
 const id = Cookies.get('id');
+console.log(id)
 
 const PostTitles = ({ posts,type }) => {
   const [showEditDetails, setShowEditDetails] = useState(false); // State to manage visibility of EditDetails component
