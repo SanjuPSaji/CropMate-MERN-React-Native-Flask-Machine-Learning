@@ -1,3 +1,3 @@
 // url.js
-const url = 'http://localhost:4999';
+const url = 'https://cropmate.onrender.com';
 export default url;

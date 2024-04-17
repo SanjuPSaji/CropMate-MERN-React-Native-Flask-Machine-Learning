@@ -52,7 +52,7 @@ const Update = () => {
       const predictdata = await response.json();
       console.log(predictdata.Crop1);
 
-      const datatoapi = await fetch("http://localhost:4999/data", {
+      const datatoapi = await fetch(`${url}/data`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

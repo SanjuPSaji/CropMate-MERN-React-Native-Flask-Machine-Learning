@@ -29,13 +29,13 @@ const PostTitles = ({ posts,type }) => {
     try {
       if (type === "comment") {
           // Make the DELETE request to delete the comment
-          const response = await axios.delete(`http://localhost:4999/DeleteComment?commentId=${postId}`);
+          const response = await axios.delete(`${url}/DeleteComment?commentId=${postId}`);
           toast.success('Comment deleted successfully!', {
               onClose: setTimeout(function () { window.location.reload(1); }, 1500)
           });
       } else if (type === "post" || type === "posts") {
           // Make the DELETE request to delete the post and associated comments
-          const response = await axios.delete(`http://localhost:4999/DeletePostAndComments?postId=${postId}`);
+          const response = await axios.delete(`${url}/DeletePostAndComments?postId=${postId}`);
           toast.success('Post and associated comments deleted successfully!', {
             onClose: setTimeout(function () { window.location.reload(1); }, 1500)
         });

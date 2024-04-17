@@ -39,7 +39,7 @@ const CreatePost = () => {
     const handleSubmit = async (postData) => {
         console.log(postData)
         try {
-            const datatoapi = await fetch('http://localhost:4999/Post', {
+            const datatoapi = await fetch(`${url}/Post`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

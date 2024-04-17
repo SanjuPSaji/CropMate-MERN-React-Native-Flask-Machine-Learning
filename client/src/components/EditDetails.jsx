@@ -24,7 +24,7 @@ const EditDetails = ({ type, post,onClose }) => {
         try{
             if(type === "post" || type === "posts"){
                   try {
-                    const response = await axios.put('http://localhost:4999/UpdatePost', {
+                    const response = await axios.put(`${url}/UpdatePost`, {
                     postId: post._id,
                     heading,
                     content: comment 
@@ -58,7 +58,7 @@ const EditDetails = ({ type, post,onClose }) => {
 
             } else if (type === "comment"){ 
                   try {
-                    const response = await axios.put('http://localhost:4999/UpdateComment', {
+                    const response = await axios.put(`${url}/UpdateComment`, {
                     postId: post._id,
                     content: comment 
                   });

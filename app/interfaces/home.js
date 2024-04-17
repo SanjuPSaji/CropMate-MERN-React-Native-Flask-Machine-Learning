@@ -54,9 +54,10 @@ const Home = ({ navigation }) => {
           //   navigation.navigate("Login");
           //   return;
           // }
+          const tok = await AsyncStorage.getItem("tok");
           const response = await axios.post(
-            `${url}/mobile`,
-            {},
+            `${url}/`,
+            {tok},
             { withCredentials: true }
           );
           const { status, user, id } = response.data;

@@ -36,8 +36,8 @@ const Login = ({ navigation }) => {
         inputValue
       );
       console.log(data);
-      const { success, message,user } = data;
-      // console.log(user);
+      const { success, message,user,token } = data;
+      await AsyncStorage.setItem("tok", token);
       
 
       if (success) {

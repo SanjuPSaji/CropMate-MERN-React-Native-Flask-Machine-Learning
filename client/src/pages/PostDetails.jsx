@@ -15,7 +15,7 @@ const PostDetails = () => {
     const fetchPost = async () => {
       try {
         // Make a POST request to fetch the post details
-        const response = await axios.get(`http://localhost:4999/PostId?postId=${postId}`);;
+        const response = await axios.get(`${url}/PostId?postId=${postId}`);;
         const data = await response.data;
 
         // Check if the response contains post data
@@ -36,7 +36,7 @@ const PostDetails = () => {
     const fetchComments = async () => {
       try {
         // Make a GET request to fetch comments based on postId
-        const response = await axios.get(`http://localhost:4999/Commentfetch?postId=${postId}`);
+        const response = await axios.get(`${url}/Commentfetch?postId=${postId}`);
         const data = await response.data;
 
         if (response.status) {
@@ -71,7 +71,7 @@ const PostDetails = () => {
   const handleCommentSubmission = async (commentData) => {
     try {
       // Make a POST request to submit the comment data
-      const response = await axios.post("http://localhost:4999/Comment", commentData, {
+      const response = await axios.post(`${url}/Comment`, commentData, {
       headers: {
         "Content-Type": "application/json",
       },

@@ -37,13 +37,15 @@ const Update = ({ navigation }) => {
   try {
     const response = await axios.get(`${url}/Postfetch`);
     setPosts(response.data.posts);
+    const tok = await AsyncStorage.getItem("tok");
     const getid = await axios.post(
+      
       `${url}/`,
-      {},
+      {tok},
       { withCredentials: true }
     );
 
-    const { status, user, id } = getid.data;
+    const { status, user, id,token } = getid.data;
     console.log(user)
     setuserid(id);
     setusername(user);
