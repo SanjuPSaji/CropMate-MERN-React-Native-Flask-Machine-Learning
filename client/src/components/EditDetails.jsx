@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import '../assets/Button.css'
+import url from '../url'
 
 const EditDetails = ({ type, post,onClose }) => {
   const [heading, setHeading] = useState(post ? post.heading : ""); // State for heading input value

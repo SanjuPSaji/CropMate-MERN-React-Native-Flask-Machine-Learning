@@ -5,6 +5,7 @@ import toast, { Toaster } from 'react-hot-toast';
 // import axios from "axios";
 const id = Cookies.get("id");
 import { Link, useNavigate } from "react-router-dom";
+import url from '../url';
 
 const Update = () => {
   const [reloadPage, setReloadPage] = useState(false);
@@ -42,7 +43,7 @@ const Update = () => {
     try {
       console.log(formData);
 
-      const response = await fetch("http://localhost:5000/predict", {
+      const response = await fetch(`${url}/datatoml`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -93,7 +94,7 @@ const Update = () => {
               max={"150"}
               required
             />
-            <label htmlFor="Nitrogen">Nitrogen </label>
+            <label htmlFor="Nitrogen">&nbsp;Nitrogen </label>
           </div>
           <div className="form-floating col-md-6 mt-3">
             <input
@@ -108,7 +109,7 @@ const Update = () => {
               max={"150"}
               required
             />
-            <label htmlFor="Phosphorus">Phosphorus </label>
+            <label htmlFor="Phosphorus">&nbsp;Phosphorus </label>
           </div>
           <div className="form-floating col-md-6 mt-3">
             <input
@@ -123,7 +124,7 @@ const Update = () => {
               max={"250"}
               required
             />
-            <label htmlFor="Potassium">Potassium </label>
+            <label htmlFor="Potassium">&nbsp;Potassium </label>
           </div>
           <div className="form-floating col-md-6 mt-3">
             <input
@@ -138,7 +139,7 @@ const Update = () => {
               max={"50"}
               required
             />
-            <label htmlFor="Temperature">Temperature </label>
+            <label htmlFor="Temperature">&nbsp;Temperature </label>
           </div>
           <div className="form-floating col-md-6 mt-3">
             <input
@@ -153,7 +154,7 @@ const Update = () => {
               max={"100"}
               required
             />
-            <label htmlFor="Humidity">Humidity </label>
+            <label htmlFor="Humidity">&nbsp;Humidity </label>
           </div>
           <div className="form-floating col-md-6 mt-3">
             <input
@@ -168,7 +169,7 @@ const Update = () => {
               max={"10"}
               required
             />
-            <label htmlFor="pH">pH </label>
+            <label htmlFor="pH">&nbsp;pH </label>
           </div>
           <div className="form-floating col-md-6 mt-3">
             <input
@@ -183,7 +184,7 @@ const Update = () => {
               max={"300"}
               required
             />
-            <label htmlFor="Rainfall">Rainfall </label>
+            <label htmlFor="Rainfall">&nbsp;Rainfall </label>
           </div>
           <div className="col-md-6 mt-3">
             <button className="btn-hover color-1">Update Details</button>

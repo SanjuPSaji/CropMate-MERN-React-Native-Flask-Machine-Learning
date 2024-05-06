@@ -2,6 +2,7 @@ import { useState, useEffect,useCallback } from 'react';
 import Cookies from 'js-cookie';
 import toast, { Toaster } from 'react-hot-toast';
 import CommentBox from '../components/CommentBox'
+import url from '../url'
 
 
 const creatorname = Cookies.get('username');

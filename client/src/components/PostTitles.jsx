@@ -5,6 +5,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import EditDetails from '../components/EditDetails';
 import { Modal } from 'react-bootstrap';
 import { useState } from 'react';
+import url from '../url'
 
 const id = Cookies.get('id');
 console.log(id)

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {View, Text, ToastAndroid, ActivityIndicator} from "react-native";
+import {View, Text, ToastAndroid, ActivityIndicator,Image,styles,ImageBackground} from "react-native";
 import axios from "axios";
 import { Button, TextInput } from 'react-native-paper';
 
@@ -52,7 +52,8 @@ const Login = ({ navigation }) => {
     setInputValue({ email: "", password: "" });
   };
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center"}}>
+      
       <Text>Login Account</Text>
       <TextInput
         label="Email"

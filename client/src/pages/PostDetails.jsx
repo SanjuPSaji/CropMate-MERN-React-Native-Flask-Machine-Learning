@@ -5,6 +5,7 @@ import CommentBox from '../components/CommentBox'
 import PostTitles from '../components/PostTitles';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
+import url from '../url'
 
 const PostDetails = () => {
   const { postId } = useParams();

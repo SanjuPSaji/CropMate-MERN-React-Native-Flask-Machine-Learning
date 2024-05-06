@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import PostTitles from '../components/PostTitles';
 import CreatePost from '../components/CreatePost';
+import url from '../url'
 
 const Post = () => {
     const [posts, setPosts] = useState([]);
