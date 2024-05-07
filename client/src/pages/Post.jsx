@@ -32,13 +32,17 @@ const Post = () => {
     }, []);
   
     return (
-      <div className="d-flex justify-content-between m-4 pb-1">
-        
-        <PostTitles type="posts" posts={posts} />
-        <div style={{width: '1000px', height: '400px', marginLeft: '12px' }}>
-        <CreatePost onRefresh={onRefresh}/>
-        </div>
+      <div className="d-flex flex-column m-4 pb-1">
+      <div className="d-flex flex-column justify-content-between">
+          <div style={{width: 'auto' }}>
+              <CreatePost onRefresh={onRefresh}/>
+          </div>
+          <div style={{marginTop:20}}>
+
+          <PostTitles type="posts" posts={posts} />
+          </div>
       </div>
+  </div>
     );
   };
 

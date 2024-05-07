@@ -6,6 +6,8 @@ import "../assets/Comment.css";
 const creatorname = Cookies.get("username");
 // const creatorId = Cookies.get('id');
 const INITIAL_HEIGHT = 46;
+const wmb = -50;
+const mb = 2000;
 
 const CommentBox = ({ onCommentSubmit,type,heading, postId }) => {
   const [isExpanded, setIsExpanded] = useState(false);
