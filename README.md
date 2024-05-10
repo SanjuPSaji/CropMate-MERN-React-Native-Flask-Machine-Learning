@@ -93,10 +93,28 @@ Ensure you have MongoDB installed and running on your system. Update the MongoDB
 
 - **ML**
    ```bash
+   cd ml
    python app.py 
    ````
 
 6. Access the Application
 Web App: Open your web browser and go to http://localhost:3000.
 Mobile App: Use the Expo app to scan the QR code generated after running the Expo server.
+
+![image](https://github.com/SanjuPSaji/CropMate-MERN-React-Native-Flask-Machine-Learning/assets/115170042/8f6ccc75-c67a-4b00-a0e9-a1e5e089bb32)
+---------------
+![image](https://github.com/SanjuPSaji/CropMate-MERN-React-Native-Flask-Machine-Learning/assets/115170042/34032b31-29ae-42bf-81c9-1d32d62b04bf)
+-----------------
+![image](https://github.com/SanjuPSaji/CropMate-MERN-React-Native-Flask-Machine-Learning/assets/115170042/1cc11d43-d88c-438a-8066-168d07ef1ede)
+--------------------
+![image](https://github.com/SanjuPSaji/CropMate-MERN-React-Native-Flask-Machine-Learning/assets/115170042/4b09684f-2c10-45cc-adfe-9ad133a4e70d)
+----------------
+<img src="https://github.com/SanjuPSaji/CropMate-MERN-React-Native-Flask-Machine-Learning/assets/115170042/87ad58a3-8221-4626-bfdc-268f19cb4873" width="249" height="490" />
+<img src="https://github.com/SanjuPSaji/CropMate-MERN-React-Native-Flask-Machine-Learning/assets/115170042/e351277b-714f-41b4-8219-11301491d414" width="250" height="490" />
+<img src="https://github.com/SanjuPSaji/CropMate-MERN-React-Native-Flask-Machine-Learning/assets/115170042/160b6287-e1dd-4d42-9cb8-e13d28021a46" width="250" height="490" />
+<img src="https://github.com/SanjuPSaji/CropMate-MERN-React-Native-Flask-Machine-Learning/assets/115170042/00d619db-cb70-4bba-b846-a8225aa68026" width="249" height="490" />
+
+
+
+
 
