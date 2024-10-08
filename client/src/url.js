@@ -8,6 +8,5 @@ if (window.location.hostname === 'localhost') {
     // Default URL
     url = 'http://localhost:4999';
 }
-// "https://cropmate.onrender.com"
-// "http://localhost:4999"
+
 export default url;

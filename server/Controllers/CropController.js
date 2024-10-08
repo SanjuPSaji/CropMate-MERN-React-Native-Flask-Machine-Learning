@@ -38,7 +38,6 @@ module.exports.Crop = async (req, res, next) => {
 
 module.exports.Cropfetch = async (req, res, next) => {
     const { id } = req.body;
-    console.log(id)
 
     try {
         // Check if there's an existing document with the given id
