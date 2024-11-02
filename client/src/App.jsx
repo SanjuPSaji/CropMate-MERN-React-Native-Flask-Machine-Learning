@@ -5,6 +5,7 @@ import Update from "./pages/Update";
 import Navbar from "./components/Navbar";
 import Posts from "./pages/Post";
 import PostDetails from "./pages/PostDetails";
+import Landing from "./pages/Landing";
 
 function App() {
   const location = useLocation();
@@ -18,6 +19,7 @@ function App() {
       {!isLoginPage && !isSignupPage && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/landing" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/update" element={<Update />} />

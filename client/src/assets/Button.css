@@ -43,3 +43,44 @@
     background-image: linear-gradient(to right, #25aae1, #40e495, #30dd8a, #2bb673);
     box-shadow: 0 4px 15px 0 rgba(49, 196, 190, 0.75);
 }
+
+.btnu-hover {
+    width: 30%;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    height: 100%;
+    text-align:center;
+    border: none;
+    background-size: 300% 100%;
+
+    border-radius: 5px;
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+}
+
+.btnu-hover:hover {
+    width: 50%;
+    background-position: 100% 0;
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+}
+
+.btnu-hover:focus {
+    outline: none;
+}
+
+.btnu-hover.color-2 {
+    background-image: linear-gradient(to right, #25aae1, #be40e4, #a840e4, #be40e4);
+    box-shadow: 0 4px 15px 0 rgba(81, 49, 196, 0.75);
+}
+
+.btn-hover.color-2 {
+    background-image: linear-gradient(to right, #25aae1, #be40e4, #a840e4, #be40e4);
+    box-shadow: 0 4px 15px 0 rgba(81, 49, 196, 0.75);
+}

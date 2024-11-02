@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Ignore specific file
+client/src/url.js
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

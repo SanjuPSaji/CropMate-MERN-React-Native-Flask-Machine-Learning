@@ -72,7 +72,9 @@ const Update = () => {
   };
 
   return (
-    <div className="soil_container" style={{height:"200%"}}>
+    <div className="soil">
+    <div className="soil_container" style={{
+      backgroundColor: "#c9d4f8",}}>
       <h3>
         Crop Recommendation System{" "}
         <span role="img" aria-label="plant">
@@ -93,6 +95,7 @@ const Update = () => {
               min={"0"}
               max={"150"}
               required
+              style={{backgroundColor:"#d5eeff"}}
             />
             <label htmlFor="Nitrogen">&nbsp;Nitrogen </label>
           </div>
@@ -108,6 +111,7 @@ const Update = () => {
               min={"0"}
               max={"150"}
               required
+              style={{backgroundColor:"#d5eeff"}}
             />
             <label htmlFor="Phosphorus">&nbsp;Phosphorus </label>
           </div>
@@ -123,6 +127,7 @@ const Update = () => {
               min={"0"}
               max={"250"}
               required
+              style={{backgroundColor:"#d5eeff"}}
             />
             <label htmlFor="Potassium">&nbsp;Potassium </label>
           </div>
@@ -138,6 +143,7 @@ const Update = () => {
               min={"0"}
               max={"50"}
               required
+              style={{backgroundColor:"#d5eeff"}}
             />
             <label htmlFor="Temperature">&nbsp;Temperature </label>
           </div>
@@ -153,6 +159,7 @@ const Update = () => {
               min={"10"}
               max={"100"}
               required
+              style={{backgroundColor:"#d5eeff"}}
             />
             <label htmlFor="Humidity">&nbsp;Humidity </label>
           </div>
@@ -168,6 +175,7 @@ const Update = () => {
               min={"2"}
               max={"10"}
               required
+              style={{backgroundColor:"#d5eeff"}}
             />
             <label htmlFor="pH">&nbsp;pH </label>
           </div>
@@ -183,6 +191,7 @@ const Update = () => {
               min={"15"}
               max={"300"}
               required
+              style={{backgroundColor:"#d5eeff"}}
             />
             <label htmlFor="Rainfall">&nbsp;Rainfall </label>
           </div>
@@ -191,12 +200,14 @@ const Update = () => {
           </div>
         </div>
 
-        <div className="row mt-4"></div>
+        <div className="row mt-4" style={{marginBottom: 215}}></div>
       </form>
       
       
       <Toaster />
     </div>
+      
+      </div>
   );
 };
 

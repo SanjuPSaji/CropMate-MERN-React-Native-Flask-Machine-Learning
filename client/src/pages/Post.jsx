@@ -32,7 +32,8 @@ const Post = () => {
     }, []);
   
     return (
-      <div className="d-flex flex-column m-4 pb-1">
+      <div className="d-flex flex-column p-4 pb-1" 
+      style={{backgroundColor:"#c9d4f8"}}>
       <div className="d-flex flex-column justify-content-between">
           <div style={{width: 'auto' }}>
               <CreatePost onRefresh={onRefresh}/>

@@ -4,6 +4,7 @@ import { useCookies } from "react-cookie";
 import Cookies from 'js-cookie';
 import axios from "axios";
 import { ToastContainer } from "react-toastify";
+import NewCropCard from '../components/NewCropCard'
 import TopCropCard from '../components/TopCropCard'
 import RestCropCards from '../components/RestCropCards'
 import '../util/config'
@@ -84,15 +85,19 @@ const Home = () => {
   return (
     <>
       <div className="home_page">
-        
+        <div className="new_card">
+        {crops.length > 0 && <NewCropCard crop={crops[0]} crops={crops}  />}
+        </div>
+
+
         
         <div className="card_container">
-        {crops.length > 0 && <TopCropCard crop={crops[0]} />}
-          {crops.length > 0 && <RestCropCards crops={crops} />}
+        {/* {crops.length > 0 && <TopCropCard crop={crops[0]} />}
+          {crops.length > 0 && <RestCropCards crops={crops} />} */}
         </div>
       </div>
       
-      <div className="footer_columns">
+      {/* <div className="footer_columns">
         <div className="contact_details">
           <p> <h3>Contact</h3></p>
           <p>Email: cropmate@email.com</p>
@@ -117,7 +122,7 @@ const Home = () => {
               </a>
             </p>
           </div>
-        </div>
+        </div> */}
       
       <ToastContainer />
     </>

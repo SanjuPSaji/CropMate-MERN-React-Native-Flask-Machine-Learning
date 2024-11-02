@@ -20,10 +20,12 @@ const Navbar = () => {
   };
 
   return (
-    <div>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light" style={{
-  backgroundColor: "#fff", 
-  boxShadow: "0 5px 4px rgba(0, 0, 0, 0.1)"}}>
+    <div style={{backgroundColor: "#c9d4f8",}}>
+      <nav className="navbar navbar-expand-lg " style={{
+   marginTop:10,marginLeft:10,marginRight:10,
+   zIndex:1,
+   backgroundColor: '#d5eeff',
+   boxShadow: "0 5px 4px rgba(0, 0, 0, 0.1)"}}>
         <div className="container-fluid">
           <button
             className="navbar-toggler"
@@ -37,7 +39,7 @@ const Navbar = () => {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-            <a className="navbar-brand" href="/">
+            <a className="navbar-brand" href="/Landing">
               CropMate
             </a>
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
