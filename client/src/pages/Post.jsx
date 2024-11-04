@@ -22,7 +22,7 @@ const Post = () => {
         try {
           const response = await axios.get(`${url}/Postfetch`);
           setPosts(response.data.posts);
-          console.log(response.data.posts)
+          // console.log(response.data.posts)
         } catch (error) {
           console.error('Error fetching posts:', error);
         }

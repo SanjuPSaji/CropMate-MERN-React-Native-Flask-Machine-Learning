@@ -1,25 +1,26 @@
 import React from 'react';
 import "../assets/Button.css";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 
 const Landing = () => {
 const navigate = useNavigate();
+const { t } = useTranslation();
 
 const Start = () => {
-  
   navigate("/update");
 };
   return (
     <div style={styles.container}>
       <div style={styles.textContainer}>
         <div style={styles.blob}>
-          <h1 style={styles.title}>CropMate</h1>
-          <h2 style={styles.subtitle}>Grow the right crop that complements you soil.</h2>
+          <h1 style={styles.title}>{t('Title')}</h1>
+          <h2 style={styles.subtitle}>{t('LSlogan')}</h2>
           <p style={styles.description}>
-            CropMate provides personalized crop recommendations to farmers, leveraging advanced machine learning techniques to optimize crop yields and sustainability.
+          {t('LDesc')}
           </p>
-          <button className="btnu-hover color-2" style={styles.button} onClick={Start}>GET STARTED</button>
+          <button className="btnu-hover color-2" style={styles.button} onClick={Start}>{t('LButton')}</button>
         </div>
       </div>
       <div style={styles.imageContainer}>

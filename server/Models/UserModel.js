@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: new Date(),
   },
+  language: {
+    type: String,
+    default: 'deff',
+  },
 });
 
 userSchema.pre("save", async function () {

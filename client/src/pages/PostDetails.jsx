@@ -97,7 +97,7 @@ const PostDetails = () => {
   };
 
   return (
-    <div className="row row-cols-1 row-cols-md-1 g-4 mx-5 mb-3 m-1">
+    <div className="row row-cols-1 row-cols-md-1 g-4 px-5 pb-3 p-1" style={{backgroundColor:"#c9d4f8"}}>
       <div className="col">
         {/* <div className="card card-body">
           <div className="d-flex align-items-center mb-3">

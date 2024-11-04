@@ -11,6 +11,7 @@ import '../util/config'
 import getCropDetails from "../util/CropDetails";
 import { FaInstagram, FaTwitter } from 'react-icons/fa'; 
 import { Link } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 import url from '../url';
 
 const Home = () => {
@@ -18,6 +19,7 @@ const Home = () => {
   const [cookies, removeCookie] = useCookies();
   const [username, setUsername] = useState("");
   const [iid, setIid] = useState('');
+  const { t } = useTranslation();
   const [crops, setCrops] = useState([]);
 
   useEffect(() => {
@@ -26,19 +28,19 @@ const Home = () => {
         // navigate("/login");
       }
       const tok = cookies.token
-      console.log(tok)
+
       const { data } = await axios.post(
         `${url}`,
         {tok},
         { withCredentials: true }
       );
-      const { status, user, id } = data;
-      console.log(data)
+      const { status, user, id, language } = data;
       setUsername(user);
       setIid(id);
       window.config.id = id;
       window.config.name = user;
       Cookies.set('id', id);
+      Cookies.set('language', language);
       Cookies.set('username', user);
       if (!status) {
         removeCookie("token");
@@ -80,7 +82,7 @@ const Home = () => {
     }
   }, [window.config.id]); // Run whenever window.config.id changes
   
-  console.log(crops)
+
 
   return (
     <>

@@ -3,6 +3,7 @@ import Cookies from 'js-cookie';
 import toast, { Toaster } from 'react-hot-toast';
 import CommentBox from '../components/CommentBox'
 import url from '../url'
+import { useTranslation } from 'react-i18next';
 
 
 const creatorname = Cookies.get('username');
@@ -10,6 +11,7 @@ const creatorId = Cookies.get('id');
 
 const CreatePost = () => {
   const [refreshing, setRefreshing] = useState(false);
+  const { t } = useTranslation();
 
     const onRefresh = useCallback(() => {
       setRefreshing(true); 
@@ -19,8 +21,6 @@ const CreatePost = () => {
     }, []);
 
     useEffect(() => {
-        console.log(creatorname)
-        console.log(creatorId)
       }, []);
     
       const [formData, setFormData] = useState({
@@ -38,7 +38,6 @@ const CreatePost = () => {
     };
 
     const handleSubmit = async (postData) => {
-        console.log(postData)
         try {
             const datatoapi = await fetch(`${url}/Post`, {
                 method: 'POST',
@@ -48,7 +47,7 @@ const CreatePost = () => {
                 body: JSON.stringify(postData)
             });
             const detailsdata = await datatoapi.json();
-            console.log(detailsdata.message);
+
             toast.success(detailsdata.message,{
               onClose: setTimeout(function () { window.location.reload(1); }, 1500)
           });
@@ -80,7 +79,7 @@ const CreatePost = () => {
             required
             style={{ boxShadow: "0 0 6px rgba(0, 0, 0, 0.2)"}}
           />
-          <label htmlFor="heading">Heading</label>
+          <label htmlFor="heading">{t('Fheading')}</label>
         </div>
         
       <CommentBox postId="postId" heading={formData.heading} type="post" onCommentSubmit={handleSubmit} />

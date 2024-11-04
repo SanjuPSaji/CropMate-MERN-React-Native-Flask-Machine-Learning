@@ -2,23 +2,45 @@ import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import "../assets/Button.css";
 import toast, { Toaster } from 'react-hot-toast';
-// import axios from "axios";
-const id = Cookies.get("id");
+import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import url from '../url';
+import LanguageSelector from '../components/LanguageSelector';
+import { useTranslation } from 'react-i18next';
+import i18n from '../i18n';
+
+const id = Cookies.get("id");
+const lang = Cookies.get('language');
 
 const Update = () => {
   const [reloadPage, setReloadPage] = useState(false);
   const navigate = useNavigate();
-  // const [iid, setIid] = useState('');
+  const [selectedLanguage, setSelectedLanguage] = useState(lang);
+  const { t } = useTranslation();
+
   useEffect(() => {
     if (!id && !reloadPage) {
-      // Check if id is not available and page reload is not done
-      setReloadPage(true); // Set reloadPage to true to indicate page reload
+      setReloadPage(true);
       window.location.reload();
     }
   }, [id, reloadPage]);
 
+  useEffect(() => {
+    const handleLanguageChange = () => {
+      const newLanguage = Cookies.get('language') || 'en';
+      setSelectedLanguage(newLanguage);
+      i18n.changeLanguage(newLanguage); // Update i18n with the new language
+    };
+
+    const interval = setInterval(() => {
+      const currentLanguage = Cookies.get('language');
+      if (currentLanguage !== selectedLanguage) {
+        handleLanguageChange();
+      }
+    }, 100); // Check every 100ms
+
+    return () => clearInterval(interval); // Clean up interval on unmount
+  }, [selectedLanguage]);
 
   const [formData, setFormData] = useState({
     id: id,
@@ -31,6 +53,7 @@ const Update = () => {
     Rainfall: "",
   });
 
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -41,7 +64,7 @@ const Update = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(formData);
+
 
       const response = await fetch(`${url}/datatoml`, {
         method: "POST",
@@ -51,7 +74,7 @@ const Update = () => {
         body: JSON.stringify(formData),
       });
       const predictdata = await response.json();
-      console.log(predictdata.Crop1);
+ 
 
       const datatoapi = await fetch(`${url}/data`, {
         method: "POST",
@@ -61,11 +84,11 @@ const Update = () => {
         body: JSON.stringify(formData),
       });
       const detailsdata = await datatoapi.json();
-      console.log(detailsdata.message);
 
-      toast.success(detailsdata.message,{
+
+      toast.success(detailsdata.message, {
         onClose: setTimeout(function () { navigate("/"); }, 1500)
-    });
+      });
     } catch (error) {
       console.error("Error:", error);
     }
@@ -73,17 +96,21 @@ const Update = () => {
 
   return (
     <div className="soil">
+
+    <div style={{ display:"flex", paddingTop:20,height : '100%'}} className="flex-container">
+      
+
     <div className="soil_container" style={{
-      backgroundColor: "#c9d4f8",}}>
-      <h3>
-        Crop Recommendation System{" "}
+      backgroundColor: "#c9d4f8", flex:2, margin:20}}>
+      <h3 style={{paddingBottom: 20,paddingTop:20 }}>
+      {t('URecomSystem')}{" "}
         <span role="img" aria-label="plant">
           🌱
         </span>
       </h3>
       <form onSubmit={handleSubmit}>
         <div className="row">
-          <div className="form-floating col-md-6 mt-3">
+          <div className="form-floating col-md-6 mt-3 mb-3">
             <input
               type="number"
               id="Nitrogen"
@@ -97,9 +124,9 @@ const Update = () => {
               required
               style={{backgroundColor:"#d5eeff"}}
             />
-            <label htmlFor="Nitrogen">&nbsp;Nitrogen </label>
+            <label htmlFor="Nitrogen">&nbsp;{t('Nitrogen')} </label>
           </div>
-          <div className="form-floating col-md-6 mt-3">
+          <div className="form-floating col-md-6 mt-3  mb-3">
             <input
               type="number"
               id="Phosphorus"
@@ -113,9 +140,9 @@ const Update = () => {
               required
               style={{backgroundColor:"#d5eeff"}}
             />
-            <label htmlFor="Phosphorus">&nbsp;Phosphorus </label>
+            <label htmlFor="Phosphorus">&nbsp;{t('Phosphorus')} </label>
           </div>
-          <div className="form-floating col-md-6 mt-3">
+          <div className="form-floating col-md-6 mt-3  mb-3">
             <input
               type="number"
               id="Potassium"
@@ -129,9 +156,9 @@ const Update = () => {
               required
               style={{backgroundColor:"#d5eeff"}}
             />
-            <label htmlFor="Potassium">&nbsp;Potassium </label>
+            <label htmlFor="Potassium">&nbsp;{t('Potassium')} </label>
           </div>
-          <div className="form-floating col-md-6 mt-3">
+          <div className="form-floating col-md-6 mt-3 mb-3">
             <input
               type="number"
               id="Temperature"
@@ -145,9 +172,9 @@ const Update = () => {
               required
               style={{backgroundColor:"#d5eeff"}}
             />
-            <label htmlFor="Temperature">&nbsp;Temperature </label>
+            <label htmlFor="Temperature">&nbsp;{t('Temperature')} </label>
           </div>
-          <div className="form-floating col-md-6 mt-3">
+          <div className="form-floating col-md-6 mt-3 mb-3">
             <input
               type="number"
               id="Humidity"
@@ -161,9 +188,9 @@ const Update = () => {
               required
               style={{backgroundColor:"#d5eeff"}}
             />
-            <label htmlFor="Humidity">&nbsp;Humidity </label>
+            <label htmlFor="Humidity">&nbsp;{t('Humidity')} </label>
           </div>
-          <div className="form-floating col-md-6 mt-3">
+          <div className="form-floating col-md-6 mt-3 mb-3">
             <input
               type="number"
               id="pH"
@@ -177,9 +204,9 @@ const Update = () => {
               required
               style={{backgroundColor:"#d5eeff"}}
             />
-            <label htmlFor="pH">&nbsp;pH </label>
+            <label htmlFor="pH">&nbsp;{t('pH')} </label>
           </div>
-          <div className="form-floating col-md-6 mt-3">
+          <div className="form-floating col-md-6 mt-3 mb-3">
             <input
               type="number"
               id="Rainfall"
@@ -193,21 +220,23 @@ const Update = () => {
               required
               style={{backgroundColor:"#d5eeff"}}
             />
-            <label htmlFor="Rainfall">&nbsp;Rainfall </label>
+            <label htmlFor="Rainfall">&nbsp;{t('Rainfall')} </label>
           </div>
-          <div className="col-md-6 mt-3">
-            <button className="btn-hover color-1">Update Details</button>
+          <div className="col-md-6 mt-3  mb-3">
+            <button className="btn-hover color-1">{t('UButton')}</button>
           </div>
         </div>
 
-        <div className="row mt-4" style={{marginBottom: 215}}></div>
+        <div className="row mt-4" style={{paddingBottom: 65 }}></div>
       </form>
       
       
       <Toaster />
     </div>
-      
+
+        <LanguageSelector selectedLanguage={selectedLanguage} setSelectedLanguage={setSelectedLanguage} />
       </div>
+    </div>
   );
 };
 

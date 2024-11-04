@@ -13,7 +13,8 @@ dist-ssr
 *.local
 
 # Ignore specific file
-client/src/url.js
+src/url.js
+src/api.js
 
 # Editor directories and files
 .vscode/*

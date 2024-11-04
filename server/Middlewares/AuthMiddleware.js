@@ -22,7 +22,7 @@ module.exports.userVerification = (req, res) => {
         // console.log("aefedf")
       }
       
-      if (user) return res.json({ status: true, user: user.name, id: user.id })
+      if (user) return res.json({ status: true, user: user.name, id: user.id, language: user.language })
       else  return res.json({ status: false })
     }
   })

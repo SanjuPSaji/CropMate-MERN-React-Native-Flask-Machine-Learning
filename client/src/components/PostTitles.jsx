@@ -4,55 +4,93 @@ import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import EditDetails from '../components/EditDetails';
 import { Modal } from 'react-bootstrap';
-import { useState } from 'react';
-import url from '../url'
+import { useState, useEffect } from 'react';
+import url from '../url';
+import { detectLanguage, translateText } from '../util/TranslatePost'; // Adjust path if needed
 
+const targetLanguage = Cookies.get("language");
 const id = Cookies.get('id');
-console.log(id)
 
-const PostTitles = ({ posts,type }) => {
-  const [showEditDetails, setShowEditDetails] = useState(false); // State to manage visibility of EditDetails component
+const PostTitles = ({ posts, type }) => {
+  const [showEditDetails, setShowEditDetails] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
+  const [translatedPosts, setTranslatedPosts] = useState([]);
+  const [hasTranslated, setHasTranslated] = useState(false); // State to track translation
+
+  useEffect(() => {
+    if (posts && posts.length > 0 && targetLanguage && !hasTranslated) {
+      console.log('Posts received:', posts);
+      const translatePosts = async () => {
+        const translated = await Promise.all(
+          posts.map(async (post) => {
+            const retryDelay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+            let attempts = 0;
+
+            while (attempts < 3) { // Retry up to 3 times
+              try {
+                const detectedLanguageData = await detectLanguage([post.content]);
+                const detectedLanguage = detectedLanguageData[0].language; // Assuming the response is an array
+                console.log(`Detected language: ${detectedLanguage} for post: ${post._id}`);
+
+                if (detectedLanguage !== targetLanguage) {
+                  const translatedContent = await translateText([post.content], targetLanguage, detectedLanguage);
+                  console.log(`Translated content for post: ${post._id}`, translatedContent[0]);
+                  return { ...post, content: translatedContent[0] }; // Assuming there's one translation per text
+                }
+                return post;
+              } catch (error) {
+                if (error.response && error.response.status === 429) {
+                  attempts++;
+                  console.log(`Rate limit hit, retrying... attempt ${attempts}`);
+                  await retryDelay(2000 * attempts); // Increased delay based on attempt number (2s, 4s, 6s)
+                } else {
+                  console.error('Error in translation:', error);
+                  break; // Exit on any other error
+                }
+              }
+            }
+            return post; // Return original post if all attempts fail
+          })
+        );
+        setTranslatedPosts(translated);
+        setHasTranslated(true); // Mark translation as complete
+      };
+      translatePosts();
+    }
+  }, [posts, targetLanguage, hasTranslated]);
+  // Add hasTranslated to dependencies
 
   const handleEdit = (post) => {
-    // Handle edit functionality
-    console.log(post); // Access the ID of the post using post._id
-    setSelectedPost(post); // Set the selected post for editing
+    setSelectedPost(post);
     setShowEditDetails(true);
   };
 
-  const handleClose= ()=> {
+  const handleClose = () => {
     setShowEditDetails(false);
-  }
+  };
 
   const handleDelete = async (postId) => {
-
     try {
       if (type === "comment") {
-          // Make the DELETE request to delete the comment
-          const response = await axios.delete(`${url}/DeleteComment?commentId=${postId}`);
-          toast.success('Comment deleted successfully!', {
-              onClose: setTimeout(function () { window.location.reload(1); }, 1500)
-          });
+        const response = await axios.delete(`${url}/DeleteComment?commentId=${postId}`);
+        toast.success('Comment deleted successfully!', {
+          onClose: setTimeout(function () { window.location.reload(1); }, 1500)
+        });
       } else if (type === "post" || type === "posts") {
-          // Make the DELETE request to delete the post and associated comments
-          const response = await axios.delete(`${url}/DeletePostAndComments?postId=${postId}`);
-          toast.success('Post and associated comments deleted successfully!', {
-            onClose: setTimeout(function () { window.location.reload(1); }, 1500)
+        const response = await axios.delete(`${url}/DeletePostAndComments?postId=${postId}`);
+        toast.success('Post and associated comments deleted successfully!', {
+          onClose: setTimeout(function () { window.location.reload(1); }, 1500)
         });
       }
-  } catch (error) {
-      // Handle error
+    } catch (error) {
       console.error("Error deleting:", error);
-  }
-    
+    }
   };
 
   if (!posts) {
-    console.log(posts)
-    return <div className="spinner-border text-info " role="status">
-    <span className="visually-hidden">Loading...</span>
-  </div>;
+    return <div className="spinner-border text-info" role="status">
+      <span className="visually-hidden">Loading...</span>
+    </div>;
   }
 
   const disabledStyle = {
@@ -65,11 +103,11 @@ const PostTitles = ({ posts,type }) => {
   let sortedPosts = [];
 
   if (type === "posts") {
-    sortedPosts = posts.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-  } else if (type === "comment"){
-    sortedPosts = posts.slice().sort((a, b) => new Date(b.commentSeq) - new Date(a.commentSeq));
+    sortedPosts = translatedPosts.length ? translatedPosts.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) : posts.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  } else if (type === "comment") {
+    sortedPosts = translatedPosts.length ? translatedPosts.slice().sort((a, b) => new Date(b.commentSeq) - new Date(a.commentSeq)) : posts.slice().sort((a, b) => new Date(b.commentSeq) - new Date(a.commentSeq));
   } else {
-    sortedPosts = [posts];
+    sortedPosts = translatedPosts.length ? [translatedPosts] : [posts];
   }
 
   const formatDate = (dateString) => {
@@ -77,9 +115,6 @@ const PostTitles = ({ posts,type }) => {
     distance = distance.replace('about ', '');
     return distance;
   };
-
-
-
 
   return (
     <div>
@@ -100,7 +135,7 @@ const PostTitles = ({ posts,type }) => {
               </div>
             </a>
             {post.creatorId === id && (
-              <div className="dropdown position-absolute mt-4" style={{ right: '20px', top: '-15px' , zIndex: '1'}}>
+              <div className="dropdown position-absolute mt-4" style={{ right: '20px', top: '-15px', zIndex: '1' }}>
                 <button className="btn btn-transparent dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                   <i className="fas fa-ellipsis-vertical"></i>
                 </button>
@@ -121,7 +156,6 @@ const PostTitles = ({ posts,type }) => {
           </div>
         </div>
       ))}
-      {/* Show EditDetails component if showEditDetails is true */}
       <Modal show={showEditDetails} onHide={() => setShowEditDetails(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Details</Modal.Title>
@@ -136,3 +170,4 @@ const PostTitles = ({ posts,type }) => {
 };
 
 export default PostTitles;
+    

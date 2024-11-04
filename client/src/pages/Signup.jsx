@@ -49,13 +49,13 @@ const Signup = () => {
         if (success) {
           handleSuccess(message);
           setTimeout(() => {
-            navigate("/");
+            navigate("/Landing");
           }, 1000);
         } else {
           handleError(message);
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
       setInputValue({
         ...inputValue,

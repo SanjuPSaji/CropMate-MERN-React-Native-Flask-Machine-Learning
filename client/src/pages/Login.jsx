@@ -5,7 +5,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import Cookies from 'js-cookie';
 import url from '../url'
 
-console.log(url)
+
 
 const Login = () => {
   const navigate = useNavigate();
@@ -45,7 +45,7 @@ const Login = () => {
         },
         { withCredentials: true }
       );
-      console.log(data);
+      // console.log(data);
 
       const { success, message,token } = data;
       if(token){
@@ -61,7 +61,7 @@ const Login = () => {
         handleError(message);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
     setInputValue({
       ...inputValue,

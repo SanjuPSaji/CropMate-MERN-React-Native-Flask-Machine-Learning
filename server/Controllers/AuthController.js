@@ -27,6 +27,7 @@ module.exports.Signup = async (req, res, next) => {
 module.exports.Login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
+
     if(!email || !password ){
       return res.json({message:'All fields are required'})
     }
@@ -49,3 +50,23 @@ module.exports.Login = async (req, res, next) => {
     console.error(error);
   }
 }
+
+module.exports.updateLanguage = async (req, res, next) => {
+  try {
+    const { userId, language } = req.body;
+    if (!userId) {
+      return res.json({ message: 'User ID not found.' });
+    }
+
+    const user = await User.findByIdAndUpdate(userId, { language }, { new: true }); // Update the user's language
+    if (!user) {
+      return res.json({ message: 'User not found' });
+    }
+
+    res.status(200).json({ message: "Language updated successfully", success: true, user });
+  } catch (error) {
+    console.error(error);
+    console.log(error);
+    res.status(500).json({ message: 'An error occurred while updating language' });
+  }
+};

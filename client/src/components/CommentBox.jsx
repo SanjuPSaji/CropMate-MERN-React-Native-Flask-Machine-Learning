@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import cn from "classnames";
 import Cookies from "js-cookie";
+import { useTranslation } from 'react-i18next';
 import "../assets/Comment.css";
 
 const creatorname = Cookies.get("username");
@@ -12,6 +13,7 @@ const mb = 2000;
 const CommentBox = ({ onCommentSubmit,type,heading, postId }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [commentValue, setCommentValue] = useState("");
+  const { t } = useTranslation();
 
   const outerHeight = useRef(INITIAL_HEIGHT);
   const textRef = useRef(null);
@@ -109,7 +111,7 @@ const CommentBox = ({ onCommentSubmit,type,heading, postId }) => {
         </div>
       </div>
       <label className="commentLabel" htmlFor="comment">
-        What are your thoughts?
+      {t('CThoughts')}
       </label>
       <textarea
         ref={textRef}
@@ -117,7 +119,7 @@ const CommentBox = ({ onCommentSubmit,type,heading, postId }) => {
         onFocus={onExpand}
         onChange={onChange}
         className="comment-field"
-        placeholder="What are your thoughts?"
+        placeholder={t('CThoughts')}
         value={commentValue}
         name="comment"
         id="comment"
@@ -125,10 +127,10 @@ const CommentBox = ({ onCommentSubmit,type,heading, postId }) => {
       />
       <div className="actions">
         <button type="submit" disabled={commentValue.length < 1}>
-          Respond
+        {t('CRespond')}
         </button>
         <button type="button" className="cancel" onClick={onClose}>
-          Cancel
+        {t('CCancel')}
         </button>
       </div>
     </form>
