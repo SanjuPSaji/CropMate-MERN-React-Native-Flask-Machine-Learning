@@ -149,6 +149,16 @@ span a {
   color:#fff;
 }
 
+.grow_container{
+  padding: 40px;
+  margin: auto;
+  width: 1000px;
+  background-color: #c9def8; 
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+  margin-top:40px; 
+}
+
 .soil{
   background-color: #c9d4f8;
 }

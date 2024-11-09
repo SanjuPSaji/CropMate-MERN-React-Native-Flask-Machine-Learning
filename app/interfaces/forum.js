@@ -36,7 +36,9 @@ const Update = ({ navigation }) => {
  const fetchData = async () => {
   try {
     const response = await axios.get(`${url}/Postfetch`);
-    setPosts(response.data.posts);
+    const reversedPosts = response.data.posts.reverse();
+    setPosts(reversedPosts);
+    // setPosts(response.data.posts);
     const tok = await AsyncStorage.getItem("tok");
     const getid = await axios.post(
       

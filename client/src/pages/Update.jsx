@@ -17,6 +17,7 @@ const Update = () => {
   const navigate = useNavigate();
   const [selectedLanguage, setSelectedLanguage] = useState(lang);
   const { t } = useTranslation();
+  const [fetchedFormData, setFetchedFormData] = useState({});
 
   useEffect(() => {
     if (!id && !reloadPage) {
@@ -42,16 +43,50 @@ const Update = () => {
     return () => clearInterval(interval); // Clean up interval on unmount
   }, [selectedLanguage]);
 
+  const fetchFormData = async () => {
+    try {
+      const response = await axios.post(`${url}/datafetch`, { id }); // Adjust the URL according to your backend
+      if (response.data.status) {
+        setFetchedFormData(response.data);
+      } else {
+        toast.error("No data found for the provided ID.");
+      }
+    } catch (error) {
+      console.error("Error fetching form data:", error);
+      toast.error("Error fetching form data.");
+    }
+  };
+
+  useEffect(() => {
+    fetchFormData(); // Fetch data when the component mounts
+  }, []);
+
   const [formData, setFormData] = useState({
     id: id,
-    Nitrogen: "",
-    Phosphorus: "",
-    Potassium: "",
-    Temperature: "",
-    Humidity: "",
-    pH: "",
-    Rainfall: "",
+    Nitrogen: fetchedFormData.Nitrogen || "",
+    Phosphorus: fetchedFormData.Phosphorus || "",
+    Potassium: fetchedFormData.Potassium || "",
+    Temperature: fetchedFormData.Temperature || "",
+    Humidity: fetchedFormData.Humidity || "",
+    pH: fetchedFormData.pH || "",
+    Rainfall: fetchedFormData.Rainfall || "",
   });
+
+  useEffect(() => {
+    // Update formData when fetchedFormData changes
+    if (Object.keys(fetchedFormData).length > 0) {
+      setFormData({
+        id: id,
+        Nitrogen: fetchedFormData.Nitrogen || "",
+        Phosphorus: fetchedFormData.Phosphorus || "",
+        Potassium: fetchedFormData.Potassium || "",
+        Temperature: fetchedFormData.Temperature || "",
+        Humidity: fetchedFormData.Humidity || "",
+        pH: fetchedFormData.pH || "",
+        Rainfall: fetchedFormData.Rainfall || "",
+      });
+    }
+  }, [fetchedFormData]);
 
 
   const handleChange = (e) => {

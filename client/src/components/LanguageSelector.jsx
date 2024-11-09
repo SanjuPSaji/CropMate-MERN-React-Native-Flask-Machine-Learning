@@ -12,25 +12,25 @@ const LanguageSelector = ({ selectedLanguage, setSelectedLanguage }) => {
   const { t } = useTranslation();
 
   const languages = [
-    { code: 'deff', name: 'Default' },
-    { code: 'en', name: 'English' },
-    { code: 'hi', name: 'हिंदी (Hindi)' },
-    { code: 'ml', name: 'മലയാളം (Malayalam)' },
-    { code: 'gu', name: 'ગુજરાતી (Gujarati)' },
-    { code: 'pa', name: 'ਪੰਜਾਬੀ (Punjabi)' },
-    { code: 'bn', name: 'বাংলা (Bengali)' },
-    { code: 'kn', name: 'ಕನ್ನಡ (Kannada)' },
-    { code: 'mr', name: 'मराठी (Marathi)' },
-    { code: 'or', name: 'ଓଡିଆ (Oriya)' },
-    { code: 'ta', name: 'தமிழ் (Tamil)' },
-    { code: 'te', name: 'తెలుగు (Telugu)' },
-    { code: 'ur', name: 'اردو (Urdu)' },
+    { code: 'deff', name: 'Default', full: 'Default' },
+    { code: 'en', name: 'English', full: 'English'  },
+    { code: 'hi', name: 'हिंदी (Hindi)', full: 'Hindi'   },
+    { code: 'ml', name: 'മലയാളം (Malayalam)', full: 'Malayalam'   },
+    { code: 'gu', name: 'ગુજરાતી (Gujarati)', full: 'Gujarati'   },
+    { code: 'pa', name: 'ਪੰਜਾਬੀ (Punjabi)', full: 'Punjabi'   },
+    { code: 'bn', name: 'বাংলা (Bengali)' , full: 'Bengali'  },
+    { code: 'kn', name: 'ಕನ್ನಡ (Kannada)' , full: 'Kannada'  },
+    { code: 'mr', name: 'मराठी (Marathi)', full: 'Marathi'   },
+    { code: 'or', name: 'ଓଡିଆ (Oriya)' , full: 'Oriya'  },
+    { code: 'ta', name: 'தமிழ் (Tamil)' , full: 'Tamil'  },
+    { code: 'te', name: 'తెలుగు (Telugu)', full: 'Telugu'   },
+    { code: 'ur', name: 'اردو (Urdu)', full: 'Urdu'   },
 ];
 
 
   const handleLanguageChange = async (event) => {
     const newLanguage = event.target.value;
-    const selectedLang = languages.find(lang => lang.code === newLanguage)?.name || newLanguage;
+    const selectedLang = languages.find(lang => lang.code === newLanguage)?.full || "English";
     if (window.confirm(`${t('AlterS')}${selectedLang}?`)) {
       try {
         const response = await axios.post(`${url}/updateLanguage`, { userId, language: newLanguage });
@@ -38,6 +38,7 @@ const LanguageSelector = ({ selectedLanguage, setSelectedLanguage }) => {
         if (response.data.success) {
           setSelectedLanguage(newLanguage);
           Cookies.set('language', newLanguage);
+          Cookies.set('languageName', selectedLang);
           window.location.reload();
         } else {
           alert("Failed to update language. Please try again.");

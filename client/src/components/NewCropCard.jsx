@@ -1,19 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useTranslation } from 'react-i18next';
-import Translator from '../util/Translator'; // Ensure Translator is correctly imported
-
+import Translator from '../util/Translator';
+import Grow from '../components/Grow'
+import Ideal from '../components/Ideal'
+import { FaBorderStyle } from 'react-icons/fa';
 const language = Cookies.get("language");
+import toast, { Toaster } from 'react-hot-toast';
+import url from '../url';
+import axios from "axios";
+const id = Cookies.get("id");
+
 
 const NewCropCard = ({ crops }) => {
   const { t } = useTranslation();
   const [selectedCrop, setSelectedCrop] = useState(crops[0].name);
   const [translatedTexts, setTranslatedTexts] = useState([]);
-  const [hasTranslated, setHasTranslated] = useState(false); // State to track translation
+  const [hasTranslated, setHasTranslated] = useState(false);
+  const [showGrow, setShowGrow] = useState(false);
+  const [showIdeal, setShowIdeal] = useState(false);
+  const [cropForGrow, setCropForGrow] = useState(null);
+  const [cropForIdeal, setCropForIdeal] = useState(null);
+  const [fetchedFormData, setFetchedFormData] = useState({});
 
-  console.log(crops)
+  const fetchFormData = async () => {
+    try {
+      const response = await axios.post(`${url}/datafetch`, { id }); // Adjust the URL according to your backend
+      if (response.data.status) {
+        setFetchedFormData(response.data);
+      } else {
+        toast.error("No data found for the provided ID.");
+      }
+    } catch (error) {
+      console.error("Error fetching form data:", error);
+      toast.error("Error fetching form data.");
+    }
+  };
+
+  useEffect(() => {
+    fetchFormData(); // Fetch data when the component mounts
+  }, []);
+  
   // Extract texts to translate from the crops array
-  const textsToTranslate = crops.flatMap(crop => [crop.name, crop.description]);
+  const textsToTranslate = crops.flatMap(crop => [crop.description]);
 
   const handleTranslations = (translations) => {
     setTranslatedTexts(translations);
@@ -24,7 +53,18 @@ const NewCropCard = ({ crops }) => {
     setSelectedCrop(event.target.value);
   };
 
+  const handleGrowClick = () => {
+    setCropForGrow(selectedCrop);
+    setShowGrow(true);
+  };
+  const handleIdealClick = () => {
+    setCropForIdeal(selectedCrop);
+    setShowIdeal(true);
+  };
+
+
   return (
+    <div>
     <div id="scene" style={styles.scene}>
       <div id="left-zone" style={styles.leftZone}>
         <ul className="list" style={styles.list}>
@@ -58,7 +98,7 @@ const NewCropCard = ({ crops }) => {
                     style={styles.svgIcon}
                   />
                   {/* Use translated text if available, otherwise use original */}
-                  {translatedTexts[index * 2] || c.name}
+                  {t(c.name)}
                 </label>
                 <div
                   className={`content content_${c.name} ${selectedCrop === c.name ? 'active' : ''}`}
@@ -74,8 +114,22 @@ const NewCropCard = ({ crops }) => {
                       backgroundImage: `url(${c.image})`,
                     }}
                   ></span>
-                  <h1>{translatedTexts[index * 2] || c.name}</h1>
-                  <h5>{translatedTexts[index * 2 + 1] || c.description}</h5>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '2px' }}>
+                  <button 
+                      style={styles.growButton}
+                      onClick={() => handleGrowClick()}
+                    >
+                      {t("HowGrow")}?
+                    </button>
+                  <h1 style={{textAlign:'center'}}>{t(c.name)}</h1>
+                  <button 
+                      style={styles.growButton}
+                      onClick={() => handleIdealClick()}
+                    >
+                      {t("IButton")}
+                    </button>
+                  </div>
+                  <h5>{translatedTexts[index * 1] || c.description}</h5>
                 </div>
               </li>
             ))
@@ -90,6 +144,9 @@ const NewCropCard = ({ crops }) => {
       </div>
       <div id="middle-border" style={styles.middleBorder}></div>
       <div id="right-zone" style={styles.rightZone}></div>
+    </div>
+    {showGrow && <Grow cropName={cropForGrow} />}
+    {showIdeal && <Ideal cropName={cropForIdeal} soilConditions={fetchedFormData} />}
     </div>
   );
 };
@@ -165,6 +222,18 @@ const styles = {
     backgroundPosition: 'center',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
+  },
+  growButton: {
+    marginRight: '10px',
+    marginLeft: '10px',
+    padding: '5px 10px',
+    fontSize: '16px',
+    cursor: 'pointer',
+    border:1,
+    color:'black',
+    borderColor:'black',
+    borderStyle:'solid',
+    backgroundColor:"#c7e8ff",
   },
   middleBorder: {
     opacity: 0.4,

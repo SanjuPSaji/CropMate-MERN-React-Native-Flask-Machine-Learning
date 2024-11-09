@@ -4,6 +4,9 @@ import axios from 'axios';
 // Function to detect the language of the provided text
 export const detectLanguage = async (texts) => {
     console.log(texts)
+  //   if (targetLang === 'deff') {
+  //     return texts; // Return the texts unchanged
+  // }
   const options = {
     method: 'POST',
     url: 'https://microsoft-translator-text-api3.p.rapidapi.com/detectlanguage',
@@ -26,7 +29,9 @@ export const detectLanguage = async (texts) => {
 
 // Function to translate the provided text to a target language
 export const translateText = async (texts, targetLang, detectLang) => {
-    console.log(texts)
+    if (targetLang === 'deff') {
+        return texts; // Return the texts unchanged
+    }
 
   const options = {
     method: 'POST',

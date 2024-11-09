@@ -117,7 +117,7 @@ const PostDetails = () => {
           <h5 className="card-title">{post.heading}</h5>
           <p className="card-text">{post.content}</p>
         </div> */}
-        <PostTitles type="post" posts={post} />
+        <PostTitles type="post" posts={[post]} />
       <CommentBox postId={postId} type="comment" onCommentSubmit={handleCommentSubmission}/>
       <div className="mt-3">
       <PostTitles type="comment" posts={comments}/>

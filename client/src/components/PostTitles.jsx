@@ -17,12 +17,36 @@ const PostTitles = ({ posts, type }) => {
   const [translatedPosts, setTranslatedPosts] = useState([]);
   const [hasTranslated, setHasTranslated] = useState(false); // State to track translation
 
+
   useEffect(() => {
     if (posts && posts.length > 0 && targetLanguage && !hasTranslated) {
-      console.log('Posts received:', posts);
+
+      const formatDate = (dateString) => {
+        let distance = formatDistanceToNow(new Date(dateString), { addSuffix: true });
+        distance = distance.replace('about ', '');
+        return distance;
+      };
+      let sortedPosts = [];
+
+      if (type === "posts") {
+        sortedPosts = posts.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      } else if (type === "comment") {
+        console.log('Posts received:', posts);
+
+        sortedPosts = posts.slice().sort((a, b) => new Date(b.commentSeq) - new Date(a.commentSeq));
+      } else {
+        sortedPosts = posts;
+        console.log(posts.length)
+      }
+
+      const formattedPosts = sortedPosts.map(post => ({
+        ...post,
+        formattedDate: formatDate(post.createdAt),
+      }));
+
       const translatePosts = async () => {
         const translated = await Promise.all(
-          posts.map(async (post) => {
+          formattedPosts.map(async (post) => {
             const retryDelay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
             let attempts = 0;
 
@@ -33,9 +57,34 @@ const PostTitles = ({ posts, type }) => {
                 console.log(`Detected language: ${detectedLanguage} for post: ${post._id}`);
 
                 if (detectedLanguage !== targetLanguage) {
-                  const translatedContent = await translateText([post.content], targetLanguage, detectedLanguage);
-                  console.log(`Translated content for post: ${post._id}`, translatedContent[0]);
-                  return { ...post, content: translatedContent[0] }; // Assuming there's one translation per text
+                  if(type === "comment"){
+                    const translatedContent = await translateText(
+                      [post.content, post.creatorname, post.formattedDate],
+                      targetLanguage,
+                      detectedLanguage
+                    );
+                    console.log(`Translated content for post: ${post._id}`, translatedContent);
+                    return { 
+                      ...post, 
+                      content: translatedContent[0],
+                      creatorname: translatedContent[1],
+                      formattedDate: translatedContent[2] // Ensure createdAt is still in the correct format
+                    };
+                  }else{
+                    const translatedContent = await translateText(
+                      [post.content, post.heading, post.creatorname, post.formattedDate],
+                      targetLanguage,
+                      detectedLanguage
+                    );
+                    console.log(`Translated content for post: ${post._id}`, translatedContent);
+                    return { 
+                      ...post, 
+                      content: translatedContent[0],
+                      heading: translatedContent[1],
+                      creatorname: translatedContent[2],
+                      formattedDate: translatedContent[3] // Ensure createdAt is still in the correct format
+                    };
+                  }
                 }
                 return post;
               } catch (error) {
@@ -55,10 +104,10 @@ const PostTitles = ({ posts, type }) => {
         setTranslatedPosts(translated);
         setHasTranslated(true); // Mark translation as complete
       };
+
       translatePosts();
     }
   }, [posts, targetLanguage, hasTranslated]);
-  // Add hasTranslated to dependencies
 
   const handleEdit = (post) => {
     setSelectedPost(post);
@@ -100,25 +149,9 @@ const PostTitles = ({ posts, type }) => {
     textDecoration: 'none',
   };
 
-  let sortedPosts = [];
-
-  if (type === "posts") {
-    sortedPosts = translatedPosts.length ? translatedPosts.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) : posts.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-  } else if (type === "comment") {
-    sortedPosts = translatedPosts.length ? translatedPosts.slice().sort((a, b) => new Date(b.commentSeq) - new Date(a.commentSeq)) : posts.slice().sort((a, b) => new Date(b.commentSeq) - new Date(a.commentSeq));
-  } else {
-    sortedPosts = translatedPosts.length ? [translatedPosts] : [posts];
-  }
-
-  const formatDate = (dateString) => {
-    let distance = formatDistanceToNow(new Date(dateString), { addSuffix: true });
-    distance = distance.replace('about ', '');
-    return distance;
-  };
-
   return (
     <div>
-      {sortedPosts.map((post) => (
+      {translatedPosts.map((post) => (
         <div className="row row-cols-1 row-cols-md-1 g-4 mb-3" key={post._id}>
           <div className="col position-relative">
             <a href={`/forum/${post._id}`} className={Array.isArray(posts) ? "card text-decoration-none" : "card text-decoration-none isDisabled"} style={type === "posts" ? { color: 'inherit' } : disabledStyle}>
@@ -127,7 +160,7 @@ const PostTitles = ({ posts, type }) => {
                   <img src="https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg" className="card-img rounded-circle" alt="..." style={{ width: '40px', height: '40px' }} />
                   <div className="d-flex justify-content-between">
                     <h6 className="card-title s"> &nbsp; {post.creatorname}&nbsp;</h6>
-                    <small className="text-muted">&bull;&nbsp;{formatDate(post.createdAt)}</small>
+                    <small className="text-muted">&bull;&nbsp;{post.formattedDate}</small>
                   </div>
                 </div>
                 <h5 className="card-title">{post.heading}</h5>
@@ -170,4 +203,3 @@ const PostTitles = ({ posts, type }) => {
 };
 
 export default PostTitles;
-    
