@@ -108,7 +108,7 @@ const Update = ({ navigation }) => {
           openModal()
         }}
       >
-        <Text style={{ color: 'white' }}><Icon name="plus" size={55} color="#000" />
+        <Text style={{ color: 'white' }}><Icon name="plus" size={45} color="#000" />
 </Text>
       </TouchableOpacity>
       <CreatePost

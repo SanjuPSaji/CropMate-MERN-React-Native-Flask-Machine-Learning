@@ -129,7 +129,7 @@ const NewCropCard = ({ crops }) => {
                       {t("IButton")}
                     </button>
                   </div>
-                  <h5>{translatedTexts[index * 1] || c.description}</h5>
+                  <h5 style={{textAlign:'center'}}>{translatedTexts[index * 1] || c.description}</h5>
                 </div>
               </li>
             ))
